@@ -73,9 +73,10 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 			console.log(file_path);
 		});
 		var path = file_path+"/"+originalname;
+		var link = "https://sonarcloud.io/dashboard?id="+writer+"-"+originalname;
 		console.log(path);
-		var params = [writer, writetime, path, originalname];
-		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명) VALUES (?,?,?,?)';
+		var params = [writer, writetime, path, originalname,link];
+		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명,링크) VALUES (?,?,?,?,?)';
 		con.query(sql, params, function(err, result, fields) {
 			if(err) throw err;
 //			else res.send({"status":"success"});
@@ -83,10 +84,10 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 				//Sonar-Scanner
 				//TODO : project를 마음대로 생성할 수 있는지?
 				shell.cd(file_path);
-				shell.exec("sonar-scanner -Dsonar.projectKey=ktktktkt -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
+				shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
 				res.send({
 					"status":"success",
-					"link":"https://sonarcloud.io/organizations/kt/projects" // TODO : dashboard 링크를 주자
+					"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자
 				});
 			}
 		});
