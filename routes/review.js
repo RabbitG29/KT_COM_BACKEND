@@ -19,6 +19,35 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+router.get("/",function(req, res, next){
+	console.log("read");
+	var id = req.query.id;
+	console.log(id);
+	var sql = "SELECT 코드.*, 사원.이름 from 코드 JOIN 사원 ON 사원.사번=코드.작성자 AND 코드.작성자=? ORDER BY 코드.작성시간 DESC";
+	con.query(sql,id,function(err, result, fields) {
+		if(err) throw err;
+		else {
+			res.send({
+				"status":"success",
+				result:JSON.stringify(result)
+			});
+		}
+	});
+});
+
+router.get("/download",function(req,res,next) {
+	console.log("download code");
+	var id = req.query.id;
+	console.log(id);
+	var sql = 'select 파일경로 from 코드 where 코드번호=?';
+	con.query(sql,id,function(err,result,fields) {
+		if(err) throw err;
+		else {
+			res.download(result[0].파일경로);
+		}
+	});
+});
+
 router.post("/", upload.single('userfile'),function(req, res, next) {
 	console.log("upload code for review");
 	console.log(req.body);
@@ -45,21 +74,34 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 		});
 		var path = file_path+"/"+originalname;
 		console.log(path);
-		var params = [writer, writetime, path];
-		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로) VALUES (?,?,?)';
+		var params = [writer, writetime, path, originalname];
+		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명) VALUES (?,?,?,?)';
 		con.query(sql, params, function(err, result, fields) {
 			if(err) throw err;
 //			else res.send({"status":"success"});
 			else {
+				//Sonar-Scanner
+				//TODO : project를 마음대로 생성할 수 있는지?
 				shell.cd(file_path);
-				shell.exec("sonar-scanner -Dsonar.projectKey=ktktkt -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
+				shell.exec("sonar-scanner -Dsonar.projectKey=ktktktkt -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
 				res.send({
 					"status":"success",
-					"link":"https://sonarcloud.io/organizations/kt/projects"
+					"link":"https://sonarcloud.io/organizations/kt/projects" // TODO : dashboard 링크를 주자
 				});
 			}
 		});
 	}
+});
+
+router.delete("/", function(req,res,next) {
+	var id = req.query.id;
+	var sql = "DELETE FROM 코드 where 코드번호=?";
+	con.query(sql,id,function(err, result, fields) {
+		if(err) throw err;
+		else {
+			res.send({"status":"success"});
+		}
+	});
 });
 
 module.exports = router;
