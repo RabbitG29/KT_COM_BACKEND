@@ -82,12 +82,13 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 //			else res.send({"status":"success"});
 			else {
 				//Sonar-Scanner
-				//TODO : project를 마음대로 생성할 수 있는지?
+				//TODO : project를 마음대로 생성할 수 있는지? -> 완료
+				//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯
 				shell.cd(file_path);
 				shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
 				res.send({
 					"status":"success",
-					"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자
+					"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자->완료
 				});
 			}
 		});

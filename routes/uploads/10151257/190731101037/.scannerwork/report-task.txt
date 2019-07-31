@@ -1,0 +1,7 @@
+organization=kt
+projectKey=10151257-Login.vue
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.102
+dashboardUrl=https://sonarcloud.io/dashboard?id=10151257-Login.vue
+ceTaskId=AWxFlNZXXt251-Ai0H_u
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWxFlNZXXt251-Ai0H_u
