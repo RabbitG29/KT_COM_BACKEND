@@ -1,0 +1,622 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007ff4871e31e0, pid=1928, tid=1928
+#
+# JRE version: OpenJDK Runtime Environment (11.0.3+7) (build 11.0.3+7)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.3+7, mixed mode, tiered, compressed oops, serial gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0xbf61e0]  SR_handler(int, siginfo*, ucontext*)+0x30
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P" (or dumping to /root/kt/routes/uploads/10151257/190801173107/core.1928)
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/AdoptOpenJDK/openjdk-build/issues
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Djava.awt.headless=true -Dscanner.home=/root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux -Dproject.home=/root/kt/routes/uploads/10151257/190801173107 org.sonarsource.scanner.cli.Main -Dsonar.projectKey=10151257-main.zip -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b
+
+Host: Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 1 cores, 983M, Ubuntu 16.04.6 LTS
+Time: Thu Aug  1 17:32:25 2019 KST elapsed time: 66 seconds (0d 0h 1m 6s)
+
+---------------  T H R E A D  ---------------
+
+Current thread is native thread
+
+Stack: [0x00007fffce0fb000,0x00007fffce8f9000],  sp=0x00007fffce8f3980,  free space=8162k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xbf61e0]  SR_handler(int, siginfo*, ucontext*)+0x30
+C  [libpthread.so.0+0x11390]
+
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00000000000000d0
+
+Register to memory mapping:
+
+RAX=0x0 is NULL
+RBX=
+[error occurred during error reporting (printing register info), id 0xb, SIGSEGV (0xb) at pc=0x00007ff4873ade47]
+
+Registers:
+RAX=0x0000000000000000, RBX=0x00007ff488895698, RCX=0x00007ff48825198d, RDX=0x0000000000000000
+RSP=0x00007fffce8f3980, RBP=0x00007fffce8f3a30, RSI=0x00007fffce8f3b70, RDI=0x0000000000000001
+R8 =0x00000000000000ca, R9 =0x00007ff4888939d0, R10=0x0000000000000000, R11=0x0000000000000246
+R12=0x0000000000000000, R13=0x00007fffce8f3b70, R14=0x00007fffce8f3a40, R15=0x00007ff488893d28
+RIP=0x00007ff4871e31e0, EFLAGS=0x0000000000010246, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007fffce8f3980)
+0x00007fffce8f3980:   00007fff00000014 00007fffce8f3ab0
+0x00007fffce8f3990:   00007ff487a7aff8 00007ff487a6dd80
+0x00007fffce8f39a0:   00007fffce8f39d4 00007fffce8f3aa0
+0x00007fffce8f39b0:   000000000255dc10 0000000000000000 
+
+Instructions: (pc=0x00007ff4871e31e0)
+0x00007ff4871e31c0:   49 89 f5 48 81 ec 88 00 00 00 e8 b1 cb 67 ff 48
+0x00007ff4871e31d0:   89 c3 44 8b 20 e8 96 96 1c 00 31 d2 84 c0 75 38
+0x00007ff4871e31e0:   48 83 ba d0 00 00 00 00 74 16 4c 8b ba 68 02 00
+0x00007ff4871e31f0:   00 41 8b 87 a8 00 00 00 83 f8 01 74 2b 44 89 23 
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 
+[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at pc=0x00007ff4873ade47]
+
+
+---------------  P R O C E S S  ---------------
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x00000000f0a00000, size: 246 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+Heap:
+ def new generation   total 6784K, used 3875K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,  52% used [0x00000000f0a00000, 0x00000000f0d18d10, 0x00000000f0ff0000)
+  from space 704K,  99% used [0x00000000f10a0000, 0x00000000f114fff8, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 13767K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  92% used [0x00000000f5c00000, 0x00000000f6971e10, 0x00000000f6972000, 0x00000000f6a85000)
+ Metaspace       used 23290K, capacity 23701K, committed 24064K, reserved 1071104K
+  class space    used 2599K, capacity 2765K, committed 2816K, reserved 1048576K
+
+Card table byte_map: [0x00007ff48870b000,0x00007ff488787000] _byte_map_base: 0x00007ff487f86000
+
+Polling page: 0x00007ff4888a3000
+
+Metaspace:
+
+Usage:
+  Non-class:     20.45 MB capacity,    20.21 MB ( 99%) used,   205.79 KB ( <1%) free+waste,    38.75 KB ( <1%) overhead. 
+      Class:      2.70 MB capacity,     2.54 MB ( 94%) used,   148.09 KB (  5%) free+waste,    17.69 KB ( <1%) overhead. 
+       Both:     23.15 MB capacity,    22.74 MB ( 98%) used,   353.88 KB (  1%) free+waste,    56.44 KB ( <1%) overhead. 
+
+Virtual space:
+  Non-class space:       22.00 MB reserved,      20.75 MB ( 94%) committed 
+      Class space:        1.00 GB reserved,       2.75 MB ( <1%) committed 
+             Both:        1.02 GB reserved,      23.50 MB (  2%) committed 
+
+Chunk freelists:
+   Non-Class:  180.00 KB
+       Class:  19.00 KB
+        Both:  199.00 KB
+
+CodeHeap 'non-profiled nmethods': size=120036Kb used=1067Kb max_used=1067Kb free=118968Kb
+ bounds [0x00007ff47309f000, 0x00007ff47330f000, 0x00007ff47a5d8000]
+CodeHeap 'profiled nmethods': size=120032Kb used=4756Kb max_used=4756Kb free=115275Kb
+ bounds [0x00007ff46bb67000, 0x00007ff46c017000, 0x00007ff47309f000]
+CodeHeap 'non-nmethods': size=5692Kb used=1124Kb max_used=1156Kb free=4568Kb
+ bounds [0x00007ff46b5d8000, 0x00007ff46b848000, 0x00007ff46bb67000]
+ total_blobs=3443 nmethods=2287 adapters=390
+ compilation: enabled
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (10 events):
+Event: 65.297 Thread 0x00007ff4800a9800 2229 %     4       java.util.zip.ZipFile$Source::initCEN @ 231 (616 bytes)
+Event: 65.304 Thread 0x00007ff4800ab800 2230       3       java.util.HashMap::afterNodeRemoval (1 bytes)
+Event: 65.304 Thread 0x00007ff4800ab800 nmethod 2230 0x00007ff46bfee490 code [0x00007ff46bfee640, 0x00007ff46bfee790]
+Event: 65.325 Thread 0x00007ff4800ab800 2231       3       java.lang.Character::isUpperCase (5 bytes)
+Event: 65.325 Thread 0x00007ff4800ab800 nmethod 2231 0x00007ff46bfee810 code [0x00007ff46bfeea00, 0x00007ff46bfeee38]
+Event: 65.326 Thread 0x00007ff4800ab800 2232       3       java.lang.Character::isUpperCase (28 bytes)
+Event: 65.326 Thread 0x00007ff4800ab800 nmethod 2232 0x00007ff46bfeef90 code [0x00007ff46bfef180, 0x00007ff46bfef558]
+Event: 65.331 Thread 0x00007ff4800a9800 nmethod 2229% 0x00007ff4731a0b90 code [0x00007ff4731a0de0, 0x00007ff4731a2788]
+Event: 65.390 Thread 0x00007ff4800ab800 2233       3       java.io.UnixFileSystem::getBooleanAttributes (49 bytes)
+Event: 65.391 Thread 0x00007ff4800ab800 nmethod 2233 0x00007ff46bfef690 code [0x00007ff46bfef8e0, 0x00007ff46bff00f8]
+
+GC Heap History (10 events):
+Event: 59.979 GC heap before
+{Heap before GC invocations=44 (full 2):
+ def new generation   total 6784K, used 6185K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K, 100% used [0x00000000f0a00000, 0x00000000f0ff0000, 0x00000000f0ff0000)
+  from space 704K,  15% used [0x00000000f10a0000, 0x00000000f10ba6c0, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 8920K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  59% used [0x00000000f5c00000, 0x00000000f64b60b8, 0x00000000f64b6200, 0x00000000f6a85000)
+ Metaspace       used 22944K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 59.980 GC heap after
+{Heap after GC invocations=45 (full 2):
+ def new generation   total 6784K, used 153K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,   0% used [0x00000000f0a00000, 0x00000000f0a00000, 0x00000000f0ff0000)
+  from space 704K,  21% used [0x00000000f0ff0000, 0x00000000f1016660, 0x00000000f10a0000)
+  to   space 704K,   0% used [0x00000000f10a0000, 0x00000000f10a0000, 0x00000000f1150000)
+ tenured generation   total 14868K, used 8920K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  59% used [0x00000000f5c00000, 0x00000000f64b60b8, 0x00000000f64b6200, 0x00000000f6a85000)
+ Metaspace       used 22944K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 61.584 GC heap before
+{Heap before GC invocations=45 (full 2):
+ def new generation   total 6784K, used 5465K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,  87% used [0x00000000f0a00000, 0x00000000f0f30030, 0x00000000f0ff0000)
+  from space 704K,  21% used [0x00000000f0ff0000, 0x00000000f1016660, 0x00000000f10a0000)
+  to   space 704K,   0% used [0x00000000f10a0000, 0x00000000f10a0000, 0x00000000f1150000)
+ tenured generation   total 14868K, used 8920K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  59% used [0x00000000f5c00000, 0x00000000f64b60b8, 0x00000000f64b6200, 0x00000000f6a85000)
+ Metaspace       used 22944K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 61.586 GC heap after
+{Heap after GC invocations=46 (full 2):
+ def new generation   total 6784K, used 704K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,   0% used [0x00000000f0a00000, 0x00000000f0a00000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f10a0000, 0x00000000f1150000, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 9077K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  61% used [0x00000000f5c00000, 0x00000000f64dd6e0, 0x00000000f64dd800, 0x00000000f6a85000)
+ Metaspace       used 22944K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 64.267 GC heap before
+{Heap before GC invocations=46 (full 2):
+ def new generation   total 6784K, used 6784K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K, 100% used [0x00000000f0a00000, 0x00000000f0ff0000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f10a0000, 0x00000000f1150000, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 9077K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  61% used [0x00000000f5c00000, 0x00000000f64dd6e0, 0x00000000f64dd800, 0x00000000f6a85000)
+ Metaspace       used 22947K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 64.269 GC heap after
+{Heap after GC invocations=47 (full 2):
+ def new generation   total 6784K, used 704K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,   0% used [0x00000000f0a00000, 0x00000000f0a00000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f0ff0000, 0x00000000f10a0000, 0x00000000f10a0000)
+  to   space 704K,   0% used [0x00000000f10a0000, 0x00000000f10a0000, 0x00000000f1150000)
+ tenured generation   total 14868K, used 10160K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  68% used [0x00000000f5c00000, 0x00000000f65ec248, 0x00000000f65ec400, 0x00000000f6a85000)
+ Metaspace       used 22947K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 64.856 GC heap before
+{Heap before GC invocations=47 (full 2):
+ def new generation   total 6784K, used 6784K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K, 100% used [0x00000000f0a00000, 0x00000000f0ff0000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f0ff0000, 0x00000000f10a0000, 0x00000000f10a0000)
+  to   space 704K,   0% used [0x00000000f10a0000, 0x00000000f10a0000, 0x00000000f1150000)
+ tenured generation   total 14868K, used 10160K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  68% used [0x00000000f5c00000, 0x00000000f65ec248, 0x00000000f65ec400, 0x00000000f6a85000)
+ Metaspace       used 22952K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 64.858 GC heap after
+{Heap after GC invocations=48 (full 2):
+ def new generation   total 6784K, used 704K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,   0% used [0x00000000f0a00000, 0x00000000f0a00000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f10a0000, 0x00000000f1150000, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 10953K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  73% used [0x00000000f5c00000, 0x00000000f66b2418, 0x00000000f66b2600, 0x00000000f6a85000)
+ Metaspace       used 22952K, capacity 23345K, committed 23808K, reserved 1071104K
+  class space    used 2563K, capacity 2713K, committed 2816K, reserved 1048576K
+}
+Event: 65.300 GC heap before
+{Heap before GC invocations=48 (full 2):
+ def new generation   total 6784K, used 6784K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K, 100% used [0x00000000f0a00000, 0x00000000f0ff0000, 0x00000000f0ff0000)
+  from space 704K, 100% used [0x00000000f10a0000, 0x00000000f1150000, 0x00000000f1150000)
+  to   space 704K,   0% used [0x00000000f0ff0000, 0x00000000f0ff0000, 0x00000000f10a0000)
+ tenured generation   total 14868K, used 10953K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  73% used [0x00000000f5c00000, 0x00000000f66b2418, 0x00000000f66b2600, 0x00000000f6a85000)
+ Metaspace       used 23165K, capacity 23593K, committed 24064K, reserved 1071104K
+  class space    used 2587K, capacity 2753K, committed 2816K, reserved 1048576K
+}
+Event: 65.301 GC heap after
+{Heap after GC invocations=49 (full 2):
+ def new generation   total 6784K, used 156K [0x00000000f0a00000, 0x00000000f1150000, 0x00000000f5c00000)
+  eden space 6080K,   0% used [0x00000000f0a00000, 0x00000000f0a00000, 0x00000000f0ff0000)
+  from space 704K,  22% used [0x00000000f0ff0000, 0x00000000f1017398, 0x00000000f10a0000)
+  to   space 704K,   0% used [0x00000000f10a0000, 0x00000000f10a0000, 0x00000000f1150000)
+ tenured generation   total 14868K, used 11686K [0x00000000f5c00000, 0x00000000f6a85000, 0x0000000100000000)
+   the space 14868K,  78% used [0x00000000f5c00000, 0x00000000f6769850, 0x00000000f6769a00, 0x00000000f6a85000)
+ Metaspace       used 23165K, capacity 23593K, committed 24064K, reserved 1071104K
+  class space    used 2587K, capacity 2753K, committed 2816K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 38.236 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff4731025d0 method=java.util.zip.ZipFile$Source.isMetaName([BII)Z @ 57 c2
+Event: 38.278 Thread 0x00007ff480011000 Uncommon trap: reason=speculate_null_assert action=make_not_entrant pc=0x00007ff473130418 method=java.util.jar.Attributes$Name.of(Ljava/lang/String;)Ljava/util/jar/Attributes$Name; @ 14 c2
+Event: 38.659 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff47314d4f8 method=java.lang.StringCoding.decodeUTF8([BIIZ)Ljava/lang/StringCoding$Result; @ 12 c2
+Event: 47.434 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff47315c330 method=java.util.zip.ZipFile$Source.isMetaName([BII)Z @ 43 c2
+Event: 48.959 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff4731531a0 method=java.lang.StringCoding.decodeUTF8([BIIZ)Ljava/lang/StringCoding$Result; @ 12 c2
+Event: 53.157 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff47316a7fc method=java.time.LocalDate.ofEpochDay(J)Ljava/time/LocalDate; @ 108 c2
+Event: 53.158 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff47316c39c method=java.time.LocalDate.ofEpochDay(J)Ljava/time/LocalDate; @ 108 c2
+Event: 53.158 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff4731693b4 method=java.time.LocalDate.ofEpochDay(J)Ljava/time/LocalDate; @ 108 c2
+Event: 61.554 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff47317ac84 method=com.sun.java.util.jar.pack.NativeUnpack.writeEntry(Ljava/util/jar/JarOutputStream;Ljava/lang/String;JJZLjava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)V @ 258 c2
+Event: 64.652 Thread 0x00007ff480011000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff473155c64 method=java.lang.StringCoding.decodeUTF8([BIIZ)Ljava/lang/StringCoding$Result; @ 12 c2
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 31.470 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0b34860}: java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V> (0x00000000f0b34860) thrown at [/home/jenkins/workspace/bui
+Event: 31.531 Thread 0x00007ff480011000 Exception <a 'java/lang/ClassNotFoundException'{0x00000000f0c13830}: javax/smartcardio/CardPermission> (0x00000000f0c13830) thrown at [/home/jenkins/workspace/build-scripts/jobs/jdk11u/jdk11u-linux-x64-hotspot/workspace/build/src/src/hotspot/share/classfi
+Event: 31.537 Thread 0x00007ff480011000 Exception <a 'java/io/FileNotFoundException'{0x00000000f0c21260}> (0x00000000f0c21260) thrown at [/home/jenkins/workspace/build-scripts/jobs/jdk11u/jdk11u-linux-x64-hotspot/workspace/build/src/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 31.677 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0e38ee0}: java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lan
+Event: 31.678 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0e47188}: java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lan
+Event: 31.704 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0a051a8}: java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;IILjava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;> (0x00000000f0a051a8) 
+Event: 31.704 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0a08730}: java.lang.invoke.DelegatingMethodHandle$Holder.reinvoke_L(Ljava/lang/Object;IILjava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;> (0x00000000f0a08730) thrown at [/home/
+Event: 31.705 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0a0c9b8}: java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;I)Ljava/lang/Object;> (0x00000000f0a0c9b8) thrown at [/home/jen
+Event: 34.461 Thread 0x00007ff480011000 Exception <a 'sun/nio/fs/UnixException'{0x00000000f0d9d888}> (0x00000000f0d9d888) thrown at [/home/jenkins/workspace/build-scripts/jobs/jdk11u/jdk11u-linux-x64-hotspot/workspace/build/src/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 34.865 Thread 0x00007ff480011000 Exception <a 'java/lang/NoSuchMethodError'{0x00000000f0bb6268}: java.lang.invoke.DirectMethodHandle$Holder.invokeVirtual(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;> (0x00000000f0bb6268) thrown at [/home/jenkins/workspace/bui
+
+Events (10 events):
+Event: 65.153 loading class org/apache/commons/io/filefilter/AndFileFilter
+Event: 65.153 loading class org/apache/commons/io/filefilter/AndFileFilter done
+Event: 65.154 loading class org/apache/commons/io/filefilter/ConditionalFileFilter
+Event: 65.154 loading class org/apache/commons/io/filefilter/ConditionalFileFilter done
+Event: 65.154 loading class org/apache/commons/io/filefilter/NotFileFilter
+Event: 65.154 loading class org/apache/commons/io/filefilter/NotFileFilter done
+Event: 65.154 loading class org/apache/commons/io/filefilter/OrFileFilter
+Event: 65.154 loading class org/apache/commons/io/filefilter/OrFileFilter done
+Event: 65.300 Executing VM operation: GenCollectForAllocation
+Event: 65.301 Executing VM operation: GenCollectForAllocation done
+
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 ca:01 399404                             /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/bin/java
+00600000-00601000 r--p 00000000 ca:01 399404                             /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/bin/java
+00601000-00602000 rw-p 00001000 ca:01 399404                             /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/bin/java
+02548000-0290a000 rw-p 00000000 00:00 0                                  [heap]
+f0a00000-f1150000 rw-p 00000000 00:00 0 
+f1150000-f5c00000 ---p 00000000 00:00 0 
+f5c00000-f6a85000 rw-p 00000000 00:00 0 
+f6a85000-100000000 ---p 00000000 00:00 0 
+100000000-1002c0000 rw-p 00000000 00:00 0 
+1002c0000-140000000 ---p 00000000 00:00 0 
+7ff44c000000-7ff44c38d000 rw-p 00000000 00:00 0 
+7ff44c38d000-7ff450000000 ---p 00000000 00:00 0 
+7ff450000000-7ff450021000 rw-p 00000000 00:00 0 
+7ff450021000-7ff454000000 ---p 00000000 00:00 0 
+7ff454000000-7ff454021000 rw-p 00000000 00:00 0 
+7ff454021000-7ff458000000 ---p 00000000 00:00 0 
+7ff458000000-7ff458e29000 rw-p 00000000 00:00 0 
+7ff458e29000-7ff45c000000 ---p 00000000 00:00 0 
+7ff45c000000-7ff45c021000 rw-p 00000000 00:00 0 
+7ff45c021000-7ff460000000 ---p 00000000 00:00 0 
+7ff460000000-7ff460021000 rw-p 00000000 00:00 0 
+7ff460021000-7ff464000000 ---p 00000000 00:00 0 
+7ff464000000-7ff4640a7000 rw-p 00000000 00:00 0 
+7ff4640a7000-7ff468000000 ---p 00000000 00:00 0 
+7ff468bc0000-7ff468bed000 r-xp 00000000 ca:01 4571                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libunpack.so
+7ff468bed000-7ff468dec000 ---p 0002d000 ca:01 4571                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libunpack.so
+7ff468dec000-7ff468def000 r--p 0002c000 ca:01 4571                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libunpack.so
+7ff468def000-7ff468df0000 rw-p 0002f000 ca:01 4571                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libunpack.so
+7ff468df0000-7ff468eb1000 rw-p 00000000 00:00 0 
+7ff468eb1000-7ff468ff1000 ---p 00000000 00:00 0 
+7ff468ff1000-7ff468ff5000 ---p 00000000 00:00 0 
+7ff468ff5000-7ff4690f2000 rw-p 00000000 00:00 0 
+7ff4690f2000-7ff4690f6000 ---p 00000000 00:00 0 
+7ff4690f6000-7ff4693f3000 rw-p 00000000 00:00 0 
+7ff4693f3000-7ff4695f3000 rw-p 00000000 00:00 0 
+7ff4695f3000-7ff4697f3000 rw-p 00000000 00:00 0 
+7ff4697f3000-7ff4697f7000 ---p 00000000 00:00 0 
+7ff4697f7000-7ff4698f4000 rw-p 00000000 00:00 0 
+7ff4698f4000-7ff4698f8000 ---p 00000000 00:00 0 
+7ff4698f8000-7ff469bf5000 rw-p 00000000 00:00 0 
+7ff469bf5000-7ff469bf7000 r-xp 00000000 ca:01 4554                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libextnet.so
+7ff469bf7000-7ff469df6000 ---p 00002000 ca:01 4554                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libextnet.so
+7ff469df6000-7ff469df7000 r--p 00001000 ca:01 4554                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libextnet.so
+7ff469df7000-7ff469df8000 rw-p 00002000 ca:01 4554                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libextnet.so
+7ff469df8000-7ff469e0f000 r-xp 00000000 ca:01 270228                     /lib/x86_64-linux-gnu/libresolv-2.23.so
+7ff469e0f000-7ff46a00f000 ---p 00017000 ca:01 270228                     /lib/x86_64-linux-gnu/libresolv-2.23.so
+7ff46a00f000-7ff46a010000 r--p 00017000 ca:01 270228                     /lib/x86_64-linux-gnu/libresolv-2.23.so
+7ff46a010000-7ff46a011000 rw-p 00018000 ca:01 270228                     /lib/x86_64-linux-gnu/libresolv-2.23.so
+7ff46a011000-7ff46a013000 rw-p 00000000 00:00 0 
+7ff46a013000-7ff46a018000 r-xp 00000000 ca:01 270224                     /lib/x86_64-linux-gnu/libnss_dns-2.23.so
+7ff46a018000-7ff46a218000 ---p 00005000 ca:01 270224                     /lib/x86_64-linux-gnu/libnss_dns-2.23.so
+7ff46a218000-7ff46a219000 r--p 00005000 ca:01 270224                     /lib/x86_64-linux-gnu/libnss_dns-2.23.so
+7ff46a219000-7ff46a21a000 rw-p 00006000 ca:01 270224                     /lib/x86_64-linux-gnu/libnss_dns-2.23.so
+7ff46a21a000-7ff46a41a000 rw-p 00000000 00:00 0 
+7ff46a41a000-7ff46a61a000 rw-p 00000000 00:00 0 
+7ff46a61a000-7ff46a65a000 r-xp 00000000 ca:01 4542                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libsunec.so
+7ff46a65a000-7ff46a85a000 ---p 00040000 ca:01 4542                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libsunec.so
+7ff46a85a000-7ff46a85f000 r--p 00040000 ca:01 4542                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libsunec.so
+7ff46a85f000-7ff46a861000 rw-p 00045000 ca:01 4542                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libsunec.so
+7ff46a861000-7ff46a892000 rw-p 00000000 00:00 0 
+7ff46a892000-7ff46a8a9000 r-xp 00000000 ca:01 4568                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnet.so
+7ff46a8a9000-7ff46aaa8000 ---p 00017000 ca:01 4568                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnet.so
+7ff46aaa8000-7ff46aaa9000 r--p 00016000 ca:01 4568                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnet.so
+7ff46aaa9000-7ff46aaaa000 rw-p 00017000 ca:01 4568                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnet.so
+7ff46aaaa000-7ff46aaba000 r-xp 00000000 ca:01 4550                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnio.so
+7ff46aaba000-7ff46acb9000 ---p 00010000 ca:01 4550                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnio.so
+7ff46acb9000-7ff46acba000 r--p 0000f000 ca:01 4550                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnio.so
+7ff46acba000-7ff46acbb000 rw-p 00010000 ca:01 4550                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libnio.so
+7ff46acbb000-7ff46acbf000 ---p 00000000 00:00 0 
+7ff46acbf000-7ff46adbc000 rw-p 00000000 00:00 0 
+7ff46adbc000-7ff46adbd000 ---p 00000000 00:00 0 
+7ff46adbd000-7ff46aebd000 rw-p 00000000 00:00 0 
+7ff46aebd000-7ff46aec1000 ---p 00000000 00:00 0 
+7ff46aec1000-7ff46afbe000 rw-p 00000000 00:00 0 
+7ff46afbe000-7ff46afc2000 ---p 00000000 00:00 0 
+7ff46afc2000-7ff46b0bf000 rw-p 00000000 00:00 0 
+7ff46b0bf000-7ff46b0c3000 ---p 00000000 00:00 0 
+7ff46b0c3000-7ff46b1c0000 rw-p 00000000 00:00 0 
+7ff46b1c0000-7ff46b5d8000 r--p 00000000 ca:01 1842022                    /usr/lib/locale/locale-archive
+7ff46b5d8000-7ff46b848000 rwxp 00000000 00:00 0 
+7ff46b848000-7ff46bb67000 ---p 00000000 00:00 0 
+7ff46bb67000-7ff46c017000 rwxp 00000000 00:00 0 
+7ff46c017000-7ff47309f000 ---p 00000000 00:00 0 
+7ff47309f000-7ff47330f000 rwxp 00000000 00:00 0 
+7ff47330f000-7ff47a5d8000 ---p 00000000 00:00 0 
+7ff47a5d8000-7ff480000000 r--s 00000000 ca:01 4572                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/modules
+7ff480000000-7ff4810f7000 rw-p 00000000 00:00 0 
+7ff4810f7000-7ff484000000 ---p 00000000 00:00 0 
+7ff484016000-7ff48401a000 ---p 00000000 00:00 0 
+7ff48401a000-7ff484117000 rw-p 00000000 00:00 0 
+7ff484117000-7ff48411b000 ---p 00000000 00:00 0 
+7ff48411b000-7ff484218000 rw-p 00000000 00:00 0 
+7ff484218000-7ff48421c000 ---p 00000000 00:00 0 
+7ff48421c000-7ff484319000 rw-p 00000000 00:00 0 
+7ff484319000-7ff48431d000 ---p 00000000 00:00 0 
+7ff48431d000-7ff48441a000 rw-p 00000000 00:00 0 
+7ff48441a000-7ff48441b000 ---p 00000000 00:00 0 
+7ff48441b000-7ff484e1f000 rw-p 00000000 00:00 0 
+7ff484e1f000-7ff484e66000 rw-p 00000000 00:00 0 
+7ff484e66000-7ff484f4c000 ---p 00000000 00:00 0 
+7ff484f4c000-7ff484f56000 rw-p 00000000 00:00 0 
+7ff484f56000-7ff485037000 ---p 00000000 00:00 0 
+7ff485037000-7ff485052000 r-xp 00000000 ca:01 4545                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjimage.so
+7ff485052000-7ff485252000 ---p 0001b000 ca:01 4545                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjimage.so
+7ff485252000-7ff485254000 r--p 0001b000 ca:01 4545                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjimage.so
+7ff485254000-7ff485255000 rw-p 0001d000 ca:01 4545                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjimage.so
+7ff485255000-7ff48525c000 r-xp 00000000 ca:01 4531                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libzip.so
+7ff48525c000-7ff48545b000 ---p 00007000 ca:01 4531                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libzip.so
+7ff48545b000-7ff48545c000 r--p 00006000 ca:01 4531                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libzip.so
+7ff48545c000-7ff48545d000 rw-p 00007000 ca:01 4531                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libzip.so
+7ff48545d000-7ff485468000 r-xp 00000000 ca:01 270232                     /lib/x86_64-linux-gnu/libnss_files-2.23.so
+7ff485468000-7ff485667000 ---p 0000b000 ca:01 270232                     /lib/x86_64-linux-gnu/libnss_files-2.23.so
+7ff485667000-7ff485668000 r--p 0000a000 ca:01 270232                     /lib/x86_64-linux-gnu/libnss_files-2.23.so
+7ff485668000-7ff485669000 rw-p 0000b000 ca:01 270232                     /lib/x86_64-linux-gnu/libnss_files-2.23.so
+7ff485669000-7ff48566f000 rw-p 00000000 00:00 0 
+7ff48566f000-7ff48567a000 r-xp 00000000 ca:01 270225                     /lib/x86_64-linux-gnu/libnss_nis-2.23.so
+7ff48567a000-7ff485879000 ---p 0000b000 ca:01 270225                     /lib/x86_64-linux-gnu/libnss_nis-2.23.so
+7ff485879000-7ff48587a000 r--p 0000a000 ca:01 270225                     /lib/x86_64-linux-gnu/libnss_nis-2.23.so
+7ff48587a000-7ff48587b000 rw-p 0000b000 ca:01 270225                     /lib/x86_64-linux-gnu/libnss_nis-2.23.so
+7ff48587b000-7ff485891000 r-xp 00000000 ca:01 270230                     /lib/x86_64-linux-gnu/libnsl-2.23.so
+7ff485891000-7ff485a90000 ---p 00016000 ca:01 270230                     /lib/x86_64-linux-gnu/libnsl-2.23.so
+7ff485a90000-7ff485a91000 r--p 00015000 ca:01 270230                     /lib/x86_64-linux-gnu/libnsl-2.23.so
+7ff485a91000-7ff485a92000 rw-p 00016000 ca:01 270230                     /lib/x86_64-linux-gnu/libnsl-2.23.so
+7ff485a92000-7ff485a94000 rw-p 00000000 00:00 0 
+7ff485a94000-7ff485a9c000 r-xp 00000000 ca:01 270236                     /lib/x86_64-linux-gnu/libnss_compat-2.23.so
+7ff485a9c000-7ff485c9b000 ---p 00008000 ca:01 270236                     /lib/x86_64-linux-gnu/libnss_compat-2.23.so
+7ff485c9b000-7ff485c9c000 r--p 00007000 ca:01 270236                     /lib/x86_64-linux-gnu/libnss_compat-2.23.so
+7ff485c9c000-7ff485c9d000 rw-p 00008000 ca:01 270236                     /lib/x86_64-linux-gnu/libnss_compat-2.23.so
+7ff485c9d000-7ff485cc6000 r-xp 00000000 ca:01 4530                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjava.so
+7ff485cc6000-7ff485ec6000 ---p 00029000 ca:01 4530                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjava.so
+7ff485ec6000-7ff485ec7000 r--p 00029000 ca:01 4530                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjava.so
+7ff485ec7000-7ff485ec9000 rw-p 0002a000 ca:01 4530                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libjava.so
+7ff485ec9000-7ff485eda000 r-xp 00000000 ca:01 4543                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libverify.so
+7ff485eda000-7ff4860d9000 ---p 00011000 ca:01 4543                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libverify.so
+7ff4860d9000-7ff4860db000 r--p 00010000 ca:01 4543                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libverify.so
+7ff4860db000-7ff4860dc000 rw-p 00012000 ca:01 4543                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/libverify.so
+7ff4860dc000-7ff4860e3000 r-xp 00000000 ca:01 270218                     /lib/x86_64-linux-gnu/librt-2.23.so
+7ff4860e3000-7ff4862e2000 ---p 00007000 ca:01 270218                     /lib/x86_64-linux-gnu/librt-2.23.so
+7ff4862e2000-7ff4862e3000 r--p 00006000 ca:01 270218                     /lib/x86_64-linux-gnu/librt-2.23.so
+7ff4862e3000-7ff4862e4000 rw-p 00007000 ca:01 270218                     /lib/x86_64-linux-gnu/librt-2.23.so
+7ff4862e4000-7ff4863ec000 r-xp 00000000 ca:01 270238                     /lib/x86_64-linux-gnu/libm-2.23.so
+7ff4863ec000-7ff4865eb000 ---p 00108000 ca:01 270238                     /lib/x86_64-linux-gnu/libm-2.23.so
+7ff4865eb000-7ff4865ec000 r--p 00107000 ca:01 270238                     /lib/x86_64-linux-gnu/libm-2.23.so
+7ff4865ec000-7ff4865ed000 rw-p 00108000 ca:01 270238                     /lib/x86_64-linux-gnu/libm-2.23.so
+7ff4865ed000-7ff48771d000 r-xp 00000000 ca:01 4528                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/server/libjvm.so
+7ff48771d000-7ff48791c000 ---p 01130000 ca:01 4528                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/server/libjvm.so
+7ff48791c000-7ff4879db000 r--p 0112f000 ca:01 4528                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/server/libjvm.so
+7ff4879db000-7ff487a14000 rw-p 011ee000 ca:01 4528                       /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/server/libjvm.so
+7ff487a14000-7ff487a6a000 rw-p 00000000 00:00 0 
+7ff487a6a000-7ff487c2a000 r-xp 00000000 ca:01 270235                     /lib/x86_64-linux-gnu/libc-2.23.so
+7ff487c2a000-7ff487e2a000 ---p 001c0000 ca:01 270235                     /lib/x86_64-linux-gnu/libc-2.23.so
+7ff487e2a000-7ff487e2e000 r--p 001c0000 ca:01 270235                     /lib/x86_64-linux-gnu/libc-2.23.so
+7ff487e2e000-7ff487e30000 rw-p 001c4000 ca:01 270235                     /lib/x86_64-linux-gnu/libc-2.23.so
+7ff487e30000-7ff487e34000 rw-p 00000000 00:00 0 
+7ff487e34000-7ff487e37000 r-xp 00000000 ca:01 270220                     /lib/x86_64-linux-gnu/libdl-2.23.so
+7ff487e37000-7ff488036000 ---p 00003000 ca:01 270220                     /lib/x86_64-linux-gnu/libdl-2.23.so
+7ff488036000-7ff488037000 r--p 00002000 ca:01 270220                     /lib/x86_64-linux-gnu/libdl-2.23.so
+7ff488037000-7ff488038000 rw-p 00003000 ca:01 270220                     /lib/x86_64-linux-gnu/libdl-2.23.so
+7ff488038000-7ff488048000 r-xp 00000000 ca:01 137562                     /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/jli/libjli.so
+7ff488048000-7ff488247000 ---p 00010000 ca:01 137562                     /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/jli/libjli.so
+7ff488247000-7ff488248000 r--p 0000f000 ca:01 137562                     /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/jli/libjli.so
+7ff488248000-7ff488249000 rw-p 00010000 ca:01 137562                     /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre/lib/jli/libjli.so
+7ff488249000-7ff488261000 r-xp 00000000 ca:01 270222                     /lib/x86_64-linux-gnu/libpthread-2.23.so
+7ff488261000-7ff488460000 ---p 00018000 ca:01 270222                     /lib/x86_64-linux-gnu/libpthread-2.23.so
+7ff488460000-7ff488461000 r--p 00017000 ca:01 270222                     /lib/x86_64-linux-gnu/libpthread-2.23.so
+7ff488461000-7ff488462000 rw-p 00018000 ca:01 270222                     /lib/x86_64-linux-gnu/libpthread-2.23.so
+7ff488462000-7ff488466000 rw-p 00000000 00:00 0 
+7ff488466000-7ff48847f000 r-xp 00000000 ca:01 269615                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7ff48847f000-7ff48867e000 ---p 00019000 ca:01 269615                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7ff48867e000-7ff48867f000 r--p 00018000 ca:01 269615                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7ff48867f000-7ff488680000 rw-p 00019000 ca:01 269615                     /lib/x86_64-linux-gnu/libz.so.1.2.8
+7ff488680000-7ff4886a6000 r-xp 00000000 ca:01 270221                     /lib/x86_64-linux-gnu/ld-2.23.so
+7ff4886b8000-7ff4886c0000 rw-p 00000000 00:00 0 
+7ff4886c0000-7ff48870b000 ---p 00000000 00:00 0 
+7ff48870b000-7ff48870f000 rw-p 00000000 00:00 0 
+7ff48870f000-7ff488734000 ---p 00000000 00:00 0 
+7ff488734000-7ff48873c000 rw-p 00000000 00:00 0 
+7ff48873c000-7ff488786000 ---p 00000000 00:00 0 
+7ff488786000-7ff48878c000 rw-p 00000000 00:00 0 
+7ff48878c000-7ff488793000 ---p 00000000 00:00 0 
+7ff488793000-7ff488797000 ---p 00000000 00:00 0 
+7ff488797000-7ff488899000 rw-p 00000000 00:00 0 
+7ff48889b000-7ff4888a3000 rw-s 00000000 ca:01 1702014                    /tmp/hsperfdata_root/1928
+7ff4888a3000-7ff4888a4000 ---p 00000000 00:00 0 
+7ff4888a4000-7ff4888a5000 r--p 00000000 00:00 0 
+7ff4888a5000-7ff4888a6000 r--p 00025000 ca:01 270221                     /lib/x86_64-linux-gnu/ld-2.23.so
+7ff4888a6000-7ff4888a7000 rw-p 00026000 ca:01 270221                     /lib/x86_64-linux-gnu/ld-2.23.so
+7ff4888a7000-7ff4888a8000 rw-p 00000000 00:00 0 
+7fffce8da000-7fffce8fb000 rw-p 00000000 00:00 0                          [stack]
+7fffce9dc000-7fffce9de000 r--p 00000000 00:00 0                          [vvar]
+7fffce9de000-7fffce9e0000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+
+VM Arguments:
+jvm_args: -Djava.awt.headless=true -Dscanner.home=/root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux -Dproject.home=/root/kt/routes/uploads/10151257/190801173107 
+java_command: org.sonarsource.scanner.cli.Main -Dsonar.projectKey=10151257-main.zip -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b
+java_class_path (initial): /root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/lib/sonar-scanner-cli-4.0.0.1744.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 2                                         {product} {ergonomic}
+   size_t InitialHeapSize                          = 16777216                                  {product} {ergonomic}
+   size_t MaxHeapSize                              = 257949696                                 {product} {ergonomic}
+   size_t MaxNewSize                               = 85983232                                  {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 196608                                    {product} {ergonomic}
+   size_t NewSize                                  = 5570560                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5824844                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122916698                              {pd product} {ergonomic}
+   size_t OldSize                                  = 11206656                                  {product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122916698                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseSerialGC                              = true                                      {product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=/root/.sonar/native-sonar-scanner/sonar-scanner-4.0.0.1744-linux/jre
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+SHELL=/bin/bash
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xe21c00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xe21c00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0xe21c00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0xbf6310], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0xbf6310], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0xe21c00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR2: [libjvm.so+0xbf61b0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0xbf6510], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0xbf6510], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0xbf6510], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0xbf6510], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=16.04
+DISTRIB_CODENAME=xenial
+DISTRIB_DESCRIPTION="Ubuntu 16.04.6 LTS"
+uname:Linux 4.4.0-59-generic #80-Ubuntu SMP Fri Jan 6 17:47:47 UTC 2017 x86_64
+libc:glibc 2.23 NPTL 2.23 
+rlimit: STACK 8192k, CORE 0k, NPROC 3773, NOFILE 1048576, AS infinity, DATA infinity, FSIZE infinity
+load average:1.24 0.91 0.40
+
+/proc/meminfo:
+MemTotal:        1007212 kB
+MemFree:          178252 kB
+MemAvailable:     595568 kB
+Buffers:          204316 kB
+Cached:           217260 kB
+SwapCached:        14684 kB
+Active:           445476 kB
+Inactive:         294088 kB
+Active(anon):     182748 kB
+Inactive(anon):   148324 kB
+Active(file):     262728 kB
+Inactive(file):   145764 kB
+Unevictable:        3652 kB
+Mlocked:            3652 kB
+SwapTotal:       1939452 kB
+SwapFree:        1830168 kB
+Dirty:               276 kB
+Writeback:             0 kB
+AnonPages:        310104 kB
+Mapped:            72288 kB
+Shmem:             10696 kB
+Slab:              51564 kB
+SReclaimable:      28156 kB
+SUnreclaim:        23408 kB
+KernelStack:        4144 kB
+PageTables:         5488 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     2443056 kB
+Committed_AS:    1548708 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:    122880 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       65536 kB
+DirectMap2M:     1105920 kB
+DirectMap1G:           0 kB
+
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads):
+7547
+
+
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
+65530
+
+
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+32768
+
+
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0
+cpu_memory_nodes: 0
+active_processor_count: 1
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -2
+memory_soft_limit_in_bytes: -1
+memory_usage_in_bytes: 230461440
+memory_max_usage_in_bytes: 259502080
+
+
+CPU:total 1 (initial active 1) (2 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx, fma
+CPU Model and flags from /proc/cpuinfo:
+model name	: Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+
+Memory: 4k page, physical 1007212k(178252k free), swap 1939452k(1830168k free)
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.3+7) for linux-amd64 JRE (11.0.3+7), built on Apr 18 2019 11:34:01 by "jenkins" with gcc 7.3.1 20180303 (Red Hat 7.3.1-5)
+
+END.

@@ -72,21 +72,25 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 			});
 			console.log(file_path);
 		});
-		var path = file_path+"/"+originalname;
+		var path2 = file_path+"/"+originalname;
+		console.log(path2);
 		var link = "https://sonarcloud.io/dashboard?id="+writer+"-"+originalname;
-		console.log(path);
-		var params = [writer, writetime, path, originalname,link];
+		var params = [writer, writetime, path2, originalname,link];
+		console.log(params);
 		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명,링크) VALUES (?,?,?,?,?)';
 		con.query(sql, params, function(err, result, fields) {
-			if(err) throw err;
+			if(err) console.log(err);
 //			else res.send({"status":"success"});
 			else {
 				//Sonar-Scanner
 				//TODO : project를 마음대로 생성할 수 있는지? -> 완료
 				//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯
+				console.log(result);
 				shell.cd(file_path);
-				if(path.extname(file_path)==".zip") // 확장자가 zip이면
+				console.log(path.extname(originalname));
+				if(path.extname(originalname)==".zip") // 확장자가 zip이면
 					shell.exec("unzip "+originalname); // 압축해제를 먼저 해준다
+				console.log("???");
 				shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
 				res.send({
 					"status":"success",
