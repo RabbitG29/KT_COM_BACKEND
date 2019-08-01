@@ -85,6 +85,8 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 				//TODO : project를 마음대로 생성할 수 있는지? -> 완료
 				//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯
 				shell.cd(file_path);
+				if(path.extname(file_path)==".zip") // 확장자가 zip이면
+					shell.exec("unzip "+originalname); // 압축해제를 먼저 해준다
 				shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization=kt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b");
 				res.send({
 					"status":"success",
