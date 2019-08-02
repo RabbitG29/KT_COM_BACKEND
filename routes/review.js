@@ -21,18 +21,39 @@ const upload = multer({ storage: storage });
 
 router.get("/",function(req, res, next){
 	console.log("read");
-	var id = req.query.id;
-	console.log(id);
-	var sql = "SELECT 코드.*, 사원.이름 from 코드 JOIN 사원 ON 사원.사번=코드.작성자 AND 코드.작성자=? ORDER BY 코드.작성시간 DESC";
-	con.query(sql,id,function(err, result, fields) {
-		if(err) throw err;
-		else {
-			res.send({
-				"status":"success",
-				result:JSON.stringify(result)
-			});
-		}
-	});
+	var id = req.query.id,
+	mode = req.query.mode,
+	deptId = req.query.deptId;
+	console.log(id); // 1: 나만보기, 2: 부서공개, 3: 전체공개
+	if(mode==1) { // My Code
+		var sql = "SELECT 코드.*, 사원.이름,부서.부서명 from 코드 JOIN 사원 ON 사원.사번=코드.작성자 AND 코드.작성자=? JOIN 부서 ON 사원.소속부서=부서.부서코드 AND 코드.공개범위>=1  ORDER BY 코드.작성시간 DESC";	
+	}
+	else if(mode==2) { // 부서 Code
+		var sql = "SELECT 코드.*, 사원.이름, 부서.부서명 from 코드 JOIN 사원 ON 사원.사번=코드.작성자 JOIN 부서 ON 부서.부서코드=사원.소속부서 AND 사원.소속부서=? AND 코드.공개범위>=2 ORDER BY 코드.작성시간 DESC";
+		con.query(sql,deptId,function(err,result,fields) {
+			if(err) throw err;
+			else {
+				res.send({
+					"status":"success",
+					result:JSON.stringify(result)
+				});
+			}
+		});
+	}
+	else { // 전체 공개
+		var sql = "SELECT 코드.*, 사원.이름,부서.부서명 from 코드 JOIN 사원 ON 코드.작성자=사원.사번 JOIN 부서 ON 사원.소속부서=부서.부서코드 AND 코드.공개범위>=3 ORDER BY 코드.작성시간 DESC";
+	}
+	if(mode!=2) {
+		con.query(sql,id,function(err, result, fields) {
+			if(err) throw err;
+			else {
+				res.send({
+					"status":"success",
+					result:JSON.stringify(result)
+				});
+			}
+		});
+	}
 });
 
 router.get("/download",function(req,res,next) {
@@ -61,17 +82,36 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 	else {
 		var filepath = req.file.path,
 		originalname = req.file.originalname; // rename을 위한 original name 저장(확장자까지 저장됨)
+		console.log("origin : "+filepath);
 		console.log(originalname);
 		var file_path = '/root/kt/routes/uploads/'+writer+'/'+time2;
 		console.log(file_path);
-		fs.mkdir(file_path, {recursive:true}, (err) => {
-			if(err) throw err;
-			else console.log("make dir");
-			fs.rename(filepath, file_path+"/"+originalname,(err) =>{
-				if(err) throw err;
-			});
-			console.log(file_path);
+		fs.stat('/root/kt/routes/uploads/'+writer,(err) => {
+			if(!err) { // 이미 존재
+				fs.mkdir(file_path, {recursive:true}, (err) => {
+					if(err) throw err;
+					else console.log("make dir");
+					fs.rename(filepath, file_path+"/"+originalname,(err) =>{
+						if(err) throw err;
+					});
+					console.log(file_path);
+				});
+			}
+			else {
+				fs.mkdir('/root/kt/routes/uploads/'+writer,{recursive:true},(err) => {
+					if(err) throw err;
+					fs.mkdir(file_path, {recursive:true}, (err) => {
+						if(err) throw err;
+						else console.log("make dir");
+						fs.rename(filepath, file_path+"/"+originalname,(err) =>{
+							if(err) throw err;
+						});
+						console.log(file_path);
+					});
+				});
+			}
 		});
+		
 		var path2 = file_path+"/"+originalname;
 		console.log(path2);
 		var link = "https://sonarcloud.io/dashboard?id="+writer+"-"+originalname;

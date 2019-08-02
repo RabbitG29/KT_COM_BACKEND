@@ -18,7 +18,8 @@ router.get("/login", function(req,res,next) {
 				res.send({
 						"status":"success",
 						"id":id,
-						"name":result[0].이름
+						"name":result[0].이름,
+						"deptId":result[0].소속부서
 						});
 			}
 			else
