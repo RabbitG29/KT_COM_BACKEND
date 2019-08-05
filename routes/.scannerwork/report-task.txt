@@ -1,0 +1,7 @@
+organization=kt2
+projectKey=10151257
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.184
+dashboardUrl=https://sonarcloud.io/dashboard?id=10151257
+ceTaskId=AWxb8GraSuEZ7Wgz0UQq
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWxb8GraSuEZ7Wgz0UQq
