@@ -7,6 +7,7 @@ const path = require('path');
 const exec = require('child_process').exec;
 const shell = require('shelljs');
 
+const commentRouter = require('./comment');
 
 //파일 업로드 설정
 const storage = multer.diskStorage({
@@ -67,6 +68,17 @@ router.get("/recent",function(req,res,next) {
 				result:JSON.stringify(result)
 			});
 		}
+	});
+});
+//댓글이 많은 코드리뷰 조회
+router.get("/many",function(req,res,next) {
+	var sql = "SELECT 사원.이름, 코드.코드번호, 코드.파일명,코드댓글수.댓글수 from 코드 JOIN (select 코드댓글.소속코드, count(코드댓글.소속코드) as 댓글수 from 코드댓글 group by 소속코드) as 코드댓글수 ON 코드댓글수.소속코드=코드.코드번호 AND 코드.공개범위>=3 JOIN 사원 ON 사원.사번=코드.작성자 ORDER BY 댓글수 DESC LIMIT 5";
+	con.query(sql,function(err,result,fields) {
+		if(err) throw err;
+		res.send({
+			"status":"success",
+			result:JSON.stringify(result)
+		});
 	});
 });
 router.get("/download",function(req,res,next) {
@@ -174,5 +186,5 @@ router.delete("/", function(req,res,next) {
 		}
 	});
 });
-
+router.use('/comment',commentRouter);
 module.exports = router;

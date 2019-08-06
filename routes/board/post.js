@@ -4,6 +4,7 @@ const router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
+const async = require('async');
 
 //파일 업로드 설정
 const storage = multer.diskStorage({
@@ -97,13 +98,37 @@ router.post("/",upload.single('userfile'),function(req,res,next) {
 	title = information.title,
 	content = information.content,
 	thumbsup = 0,
-	categoryId = information.categoryId;
+	categoryId = information.categoryId,
+	tags = information.tags;
+	console.log(tags[0]);
 	var path, id;
+	var i=0;
 	var sql = 'INSERT INTO 게시글 (작성자, 소속게시판, 작성시각, 제목, 내용, 추천수, 소속카테고리) VALUES (?,?,?,?,?,?,?)';
 	var params = [writer, boardId, writetime, title, content, thumbsup, categoryId];
 	con.query(sql, params, function(err,result,fields) {
 		if(err) throw err;
-		else if(req.file==null) res.send({"status":"success"}); // 파일 첨부 안했으면 그대로 종료
+		var sql2 = 'insert into 해시태그 (태그명,태그횟수) VALUES (?,1) ON DUPLICATE KEY UPDATE 태그횟수=태그횟수+1, 태그번호=태그번호';
+		console.log(tags[0]); // TODO : 쿼리문 반복 적용->완료
+		async.forEach(tags,function(tag, callback) {
+		con.query(sql2,tag,function(err,result,fields) {
+			if(err) throw err;
+			console.log(tag);
+			var params3 = [tag, writer, title, writetime];
+			con.query('select * from 해시태그 where 태그명=?;'+'select 게시글번호 from 게시글 where 작성자=? AND 제목=? AND 작성시각=?',params3,function(err,result,fields) {
+				if(err) throw err;
+				console.log(result[1][0].게시글번호);
+				async.forEach(result[0],function(partResult,callback){
+					var params2 = [result[1][0].게시글번호,partResult.태그번호];
+					console.log(params2);
+					con.query('insert ignore into 게시글태그 VALUES (?,?)',params2,function(err,result,fields) {
+						if(err) throw err;
+						console.log(result);
+					});
+				});
+			});	
+		});
+		});
+		if(req.file==null) res.send({"status":"success"}); // 파일 첨부 안했으면 그대로 종료
 		else { // 파일 첨부했으면
 			console.log("upload file");
 			var filepath = req.file.path,
@@ -141,6 +166,7 @@ router.post("/",upload.single('userfile'),function(req,res,next) {
 	});	
 });
 //게시글 수정
+//TODO : 게시글 수정 시 태그 수정 필요
 router.put("/",upload.single('userfile'),function(req,res,next) {
 	console.log("update post");
 	var information = JSON.parse(req.body.information);
