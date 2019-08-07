@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const exec = require('child_process').exec;
 const shell = require('shelljs');
+const async = require('async');
 
 const commentRouter = require('./comment');
 
@@ -102,7 +103,9 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 	var time2 = newDate.toFormat('YYMMDDHH24MISS'); // 경로 생성을 위한 format
 	var writer = req.body.id,
 	writetime = time,
-	organization = req.body.organization;
+	mode = req.body.mode,
+	organization = req.body.organization,
+	tags = JSON.parse(req.body.tags);
 	if(organization=='') organization='kt';
 	if(req.file==null)
 		res.send({"status":"none"});
@@ -138,28 +141,48 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 				});
 			}
 		});
-		
+		console.log("씨발");
 		var path2 = file_path+"/"+originalname;
 		console.log(path2);
 		var link = "https://sonarcloud.io/dashboard?id="+writer+"-"+originalname;
-		var params = [writer, writetime, path2, originalname,link];
+		var params = [writer, writetime, path2, originalname, link, mode];
 		console.log(params);
-		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명,링크) VALUES (?,?,?,?,?)';
+		var sql = 'INSERT INTO 코드 (작성자, 작성시간, 파일경로,파일명,링크,공개범위) VALUES (?,?,?,?,?,?)';
 		con.query(sql, params, function(err, result, fields) {
 			if(err) console.log(err);
 //			else res.send({"status":"success"});
 			else {
-				//Sonar-Scanner
-				//TODO : project를 마음대로 생성할 수 있는지? -> 완료
-				//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯->완료
-				// organization은 마음대로 관리할 수 없음, 실제 서비스할 시에는 organization을 따로 할당해야 할 듯 or 입력을 받는 식으로?
-				console.log(result);
-				shell.cd(file_path); // 해당 디렉토리로 이동해서
-				console.log(path.extname(originalname));
-				if(path.extname(originalname)==".zip") // 확장자가 zip이면
-					shell.exec("unzip "+originalname); // 압축해제를 먼저 해준다
-				console.log("???");
-				shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization="+organization+" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b"); // sonar-scanner 동작
+				var sql2 = 'insert into 해시태그 (태그명,태그횟수) VALUES (?,1) ON DUPLICATE KEY UPDATE 태그횟수=태그횟수+1, 태그번호=태그번호';
+				async.forEach(tags,function(tag, callback) {
+					con.query(sql2,tag,function(err,result,fields) {
+						if(err) throw err;
+						var params2 = [tag, writer, originalname, writetime];
+						console.log(params2);
+						var sql3 = 'select * from 해시태그 where 태그명=?;'+'select 코드번호 from 코드 where 작성자=? AND 파일명=? AND 작성시간=?';
+						con.query(sql3,params2,function(err,result,fields) {
+							if(err) throw err;
+							async.forEach(result[0],function(partResult, callback) {
+								var params3 = [result[1][0].코드번호,partResult.태그번호];
+								console.log(params3);
+								con.query('insert ignore into 코드태그 VALUES (?,?)',params3,function(err,result,fields) {
+									if(err) throw err;
+									//Sonar-Scanner
+									//TODO : project를 마음대로 생성할 수 있는지? -> 완료
+									//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯->완료
+									// organization은 마음대로 관리할 수 없음, organization을 따로 할당해야 할 듯 or 입력을 받는 식으로?
+									console.log(result);
+									shell.cd(file_path); // 해당 디렉토리로 이동해서
+									console.log(path.extname(originalname));
+									if(path.extname(originalname)==".zip") // 확장자가 zip이면
+										shell.exec("unzip "+originalname); // 압축해제를 먼저 해준다
+									console.log("???");
+									shell.exec("sonar-scanner -Dsonar.projectKey="+writer+"-"+originalname+" -Dsonar.organization="+organization+" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=982cf3839f11d609e7e510c32eb4459e93bb743b"); // sonar-scanner 동작
+									
+								});
+							});
+						});
+					});
+				});
 				res.send({
 					"status":"success",
 					"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자->완료
@@ -173,17 +196,27 @@ router.delete("/", function(req,res,next) {
 	var id = req.query.id;
 	var sql = "DELETE FROM 코드 where 코드번호=?";
 	var sql2 = "SELECT 파일경로 from 코드 where 코드번호=?";
+	var sal3 = "SELECT 태그번호 from 코드태그 where 코드번호=?";
 	con.query(sql2,id,function(err, result, fields) {
 		if(result[0].파일경로!=null) {
 			fs.unlink(result[0].파일경로);
 //			fs.rmdir // -> TODO : 경로 지워야함
 		}
 	});
-	con.query(sql,id,function(err, result, fields) {
+	con.query(sql3,id,function(err,result,fields) {
 		if(err) throw err;
-		else {
-			res.send({"status":"success"});
-		}
+		var sql4 = "UPDATE 해시태그 SET 태그횟수=태그횟수-1 where 태그번호=?";
+		async.forEach(result,function(partResult,callback) {
+			con.query(sql3,partResult,function(err,result,fields) {
+				if(err) throw err;
+			});
+		});
+		con.query(sql,id,function(err, result, fields) {
+			if(err) throw err;
+			else {
+				res.send({"status":"success"});
+			}
+		});
 	});
 });
 router.use('/comment',commentRouter);

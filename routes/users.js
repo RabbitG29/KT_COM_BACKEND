@@ -28,6 +28,19 @@ router.get("/login", function(req,res,next) {
 		else
 			res.send({"status":"none"});
 	});
-});	
+});
+
+//부서 조회
+router.get("/depts",function(req,res,next) {
+	console.log("dept list");
+	var sql = "select * from 부서";
+	con.query(sql,function(err,result,fields) {
+		if(err) throw err;
+		res.send({
+			"status":"success",
+			result:JSON.stringify(result)
+		});
+	});
+});
 
 module.exports = router;

@@ -110,23 +110,24 @@ router.post("/",upload.single('userfile'),function(req,res,next) {
 		var sql2 = 'insert into 해시태그 (태그명,태그횟수) VALUES (?,1) ON DUPLICATE KEY UPDATE 태그횟수=태그횟수+1, 태그번호=태그번호';
 		console.log(tags[0]); // TODO : 쿼리문 반복 적용->완료
 		async.forEach(tags,function(tag, callback) {
-		con.query(sql2,tag,function(err,result,fields) {
-			if(err) throw err;
-			console.log(tag);
-			var params3 = [tag, writer, title, writetime];
-			con.query('select * from 해시태그 where 태그명=?;'+'select 게시글번호 from 게시글 where 작성자=? AND 제목=? AND 작성시각=?',params3,function(err,result,fields) {
+			con.query(sql2,tag,function(err,result,fields) {
 				if(err) throw err;
-				console.log(result[1][0].게시글번호);
-				async.forEach(result[0],function(partResult,callback){
-					var params2 = [result[1][0].게시글번호,partResult.태그번호];
-					console.log(params2);
-					con.query('insert ignore into 게시글태그 VALUES (?,?)',params2,function(err,result,fields) {
-						if(err) throw err;
-						console.log(result);
+				console.log(tag);
+				var params3 = [tag, writer, title, writetime];
+				var sql3 = 'select * from 해시태그 where 태그명=?;'+'select 게시글번호 from 게시글 where 작성자=? AND 제목=? AND 작성시각=?';
+				con.query(sql3,params3,function(err,result,fields) {
+					if(err) throw err;
+					console.log(result[1][0].게시글번호);
+					async.forEach(result[0],function(partResult,callback){
+						var params2 = [result[1][0].게시글번호,partResult.태그번호];
+						console.log(params2);
+						con.query('insert ignore into 게시글태그 VALUES (?,?)',params2,function(err,result,fields) {
+							if(err) throw err;
+							console.log(result);
+						});
 					});
-				});
-			});	
-		});
+				});	
+			});
 		});
 		if(req.file==null) res.send({"status":"success"}); // 파일 첨부 안했으면 그대로 종료
 		else { // 파일 첨부했으면
@@ -230,16 +231,27 @@ router.delete("/",function(req,res,next) {
 				fs.rmdir('/root/kt/routes/board/uploads/'+postId);//경로도 지우고
 			}
 		});
-		var sql = 'DELETE from 게시글 where 게시글번호=?'; // TODO : DB 제약조건 CASCADE로 재설계 필요 -> 완료
-		con.query(sql,postId,function(err,result,fields) {
+		var sql2 = 'SELECT 태그번호 from 게시글태그 where 게시글번호=?';
+		con.query(sql2,postId,function(err,result,fields) {
 			if(err) throw err;
-			else { 
-				con.commit();
-				res.send({
-					"status":"success"
+			var sql3 = 'UPDATE 해시태그 SET 태그횟수=태그횟수-1 where 태그번호=?'; // 게시글에 달려있던 해시태그의 태그횟수 1 감소
+			async.forEach(result,function(partResult,callback) {
+				con.query(sql3,partResult,function(err,result,fields) {
+					if(err) throw err;
 				});
-			}
+			});
+			var sql = 'DELETE from 게시글 where 게시글번호=?'; // TODO : DB 제약조건 CASCADE로 재설계 필요 -> 완료
+			con.query(sql,postId,function(err,result,fields) {
+				if(err) throw err;
+				else { 
+					con.commit();
+					res.send({
+						"status":"success"
+					});
+				}
+			});
 		});
+		
 	});
 });
 // 게시글 추천 여부 조회
