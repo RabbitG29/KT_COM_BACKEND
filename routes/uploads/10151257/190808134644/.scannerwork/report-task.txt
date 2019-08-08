@@ -1,0 +1,7 @@
+organization=kt
+projectKey=10151257-PostViewer.vue
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.184
+dashboardUrl=https://sonarcloud.io/dashboard?id=10151257-PostViewer.vue
+ceTaskId=AWxvjyKqhvfIjRvd_p3i
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWxvjyKqhvfIjRvd_p3i

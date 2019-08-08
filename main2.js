@@ -25,6 +25,7 @@ app.get("/", function(req, res) {
 const userRouter = require('./routes/users');
 const reviewRouter = require('./routes/review');
 const boardRouter = require('./routes/board');
+const tagRouter = require('./routes/tag');
 
 const server = app.listen(port, hostname, () => {
 	console.log("Server running");
@@ -33,3 +34,4 @@ const server = app.listen(port, hostname, () => {
 app.use('/users',userRouter);
 app.use('/review',reviewRouter);
 app.use('/board',boardRouter);
+app.use('/tags',tagRouter);

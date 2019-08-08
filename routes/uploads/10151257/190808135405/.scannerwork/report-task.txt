@@ -1,0 +1,7 @@
+organization=kt
+projectKey=10151257-PostUploader.vue
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.184
+dashboardUrl=https://sonarcloud.io/dashboard?id=10151257-PostUploader.vue
+ceTaskId=AWxvlMcDzpRRh3Me9I1A
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWxvlMcDzpRRh3Me9I1A
