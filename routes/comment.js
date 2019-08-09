@@ -7,7 +7,7 @@ router.get("/",function(req,res,next) {
 	console.log("read comment");
 	console.log(req.query.codeId);
 	var codeId = req.query.codeId;
-	var sql = 'SELECT 코드댓글.*,사원.이름 from 코드댓글 JOIN 사원 ON 코드댓글.작성자=사원.사번 AND 코드댓글.소속코드=?';
+	var sql = 'SELECT 코드댓글.*,사원.이름 from 코드댓글 JOIN 사원 ON 코드댓글.작성자=사원.사번 AND 코드댓글.소속코드=? ORDER BY 코드댓글.작성시각 DESC';
 	con.query(sql,codeId,function(err,result,fields) {
 		if(err) throw err;
 		else {

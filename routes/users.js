@@ -1,6 +1,7 @@
 const express = require('express');
 const con = require('../connection');
 const router = express.Router();
+const sha256 = require('sha256');
 
 router.get("/login", function(req,res,next) {
 	console.log("login");
@@ -13,14 +14,34 @@ router.get("/login", function(req,res,next) {
 		if(err) throw err;
 		console.log(result);
 		if(result.length!=0) {
-			if(result[0].비밀번호==password) {
-				
-				res.send({
-						"status":"success",
-						"id":id,
-						"name":result[0].이름,
-						"deptId":result[0].소속부서
+			var crypto = sha256.x2(password);
+			var crypto2 = sha256.x2(result[0].비밀번호);
+			var crypto3 = result[0].비밀번호;
+			console.log(crypto);
+			console.log(crypto2);
+			console.log(crypto3);
+			if(result[0].사번==result[0].비밀번호) {
+				var sql2 = 'UPDATE 사원 SET 비밀번호=? WHERE 사번=?';
+				var params = [crypto2,id];
+				con.query(sql2,params,function(err,result2,fields) {
+					if(err) throw err;
+					if(crypto==crypto2) {				
+						res.send({
+							"status":"success",
+							"id":id,
+							"name":result[0].이름,
+							"deptId":result[0].소속부서
 						});
+					}
+				});
+			}
+			else if(crypto==crypto3) {				
+				res.send({
+					"status":"success",
+					"id":id,
+					"name":result[0].이름,
+					"deptId":result[0].소속부서
+				});
 			}
 			else
 				res.send({"status":"fail"});
