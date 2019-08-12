@@ -5,6 +5,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const async = require('async');
+const { check, validationResult } = require('express-validator');
 
 //파일 업로드 설정
 const storage = multer.diskStorage({
@@ -18,7 +19,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage});
 
 // 게시판 조회
-router.get("/",function(req,res,next) {
+router.get("/",check('boardId').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("list");
 	var boardId = req.query.boardId;
 	var sql = 'SELECT 게시글.*,사원.이름,게시글카테고리.카테고리명,게시판.게시판명,부서.부서명  from 게시글 JOIN 사원 ON 게시글.작성자=사원.사번  AND 게시글.소속게시판=? JOIN 게시글카테고리 ON 게시글.소속카테고리=게시글카테고리.카테고리번호 JOIN 게시판 ON 게시판.게시판번호=게시글.소속게시판 JOIN 부서 ON 부서.부서코드=사원.소속부서 ORDER BY 게시글.작성시각 DESC';
@@ -61,7 +66,11 @@ router.get("/hot",function(req,res,next) {
 	});
 });
 // 게시글 읽기
-router.get("/view",function(req,res,next) {
+router.get("/view",check('postId').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("read");
 	var postId = req.query.postId;
 	var sql = 'SELECt 게시글.*, 사원.이름 from 게시글 JOIN 사원 ON 게시글.작성자=사원.사번 AND 게시글.게시글번호=?';
@@ -76,7 +85,11 @@ router.get("/view",function(req,res,next) {
 	});
 });
 //첨부파일 다운로드
-router.get("/download",function(req,res,next) {
+router.get("/download",check('id').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("download file");
 	var id = req.query.id;
 	var sql = 'SELECT 첨부파일경로 from 게시글 where 게시글번호=?'
@@ -87,7 +100,14 @@ router.get("/download",function(req,res,next) {
 });
 
 //게시글 등록
-router.post("/",upload.single('userfile'),function(req,res,next) {
+router.post("/",[
+	upload.single('userfile'),
+	check('information').isJSON()
+],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("create post");
 	var information = JSON.parse(req.body.information)
 	var newDate = new Date();
@@ -101,6 +121,13 @@ router.post("/",upload.single('userfile'),function(req,res,next) {
 	categoryId = information.categoryId,
 	tags = information.tags;
 	console.log(tags[0]);
+	if(!check('writer').isInt({min:10000000,max:99999999})||
+	!check('information.boardId').isInt()||
+	!check('information.content').isLength({min:1})||
+	!check('information.title').isLength({min:1})||
+	!check('information.categoryId').isInt()||
+	!check('information.tags').isJSON())
+		return res.status(422).json({ errors: errors.array() });
 	var path, id;
 	var i=0;
 	var sql = 'INSERT INTO 게시글 (작성자, 소속게시판, 작성시각, 제목, 내용, 추천수, 소속카테고리) VALUES (?,?,?,?,?,?,?)';
@@ -168,13 +195,25 @@ router.post("/",upload.single('userfile'),function(req,res,next) {
 });
 //게시글 수정
 //TODO : 게시글 수정 시 태그 수정 필요
-router.put("/",upload.single('userfile'),function(req,res,next) {
+router.put("/",[
+	upload.single('userfile'),
+	check('information').isJSON()
+],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("update post");
 	var information = JSON.parse(req.body.information);
 	var postId = information.postId,
 	title = information.title,
 	content = information.content,
 	categoryId = information.categoryId;
+	if(!check('postId').isInt()||
+	!check('title').isLength({min:1})||
+	!check('content').isLength({min:1})||
+	!check('categoryId').isInt())
+		return res.status(422).json({ errors: errors.array() });
 	console.log(postId);
 	if(req.file==null) { // 첨부파일 변경이 없을 경우
 		var params = [title, content, categoryId, postId];
@@ -220,7 +259,11 @@ router.put("/",upload.single('userfile'),function(req,res,next) {
 	}
 });
 //게시글 삭제
-router.delete("/",function(req,res,next) {
+router.delete("/",check('postId').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("delete post");
 	var postId = req.query.postId;
 	var sql2 = 'SELECT 첨부파일경로 from 게시글 where 게시글번호=?';
@@ -231,8 +274,8 @@ router.delete("/",function(req,res,next) {
 				fs.rmdir('/root/kt/routes/board/uploads/'+postId);//경로도 지우고
 			}
 		});
-		var sql2 = 'SELECT 태그번호 from 게시글태그 where 게시글번호=?';
-		con.query(sql2,postId,function(err,result,fields) {
+		var sql4 = 'SELECT 태그번호 from 게시글태그 where 게시글번호=?';
+		con.query(sql4,postId,function(err,result,fields) {
 			if(err) throw err;
 			var sql3 = 'UPDATE 해시태그 SET 태그횟수=태그횟수-1 where 태그번호=?'; // 게시글에 달려있던 해시태그의 태그횟수 1 감소
 			async.forEach(result,function(partResult,callback) {
@@ -255,7 +298,11 @@ router.delete("/",function(req,res,next) {
 	});
 });
 // 게시글 추천 여부 조회
-router.get("/like",function(req,res,next) {
+router.get("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	var postId = req.query.postId,
 	id = req.query.id;
 	var params = [postId, id];
@@ -268,7 +315,11 @@ router.get("/like",function(req,res,next) {
 });
 
 // 게시글 추천
-router.post("/like",function(req, res, next) {
+router.post("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req, res, next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("like post");
 	var postId = req.body.postId,
 	id = req.body.id;

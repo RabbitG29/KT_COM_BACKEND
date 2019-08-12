@@ -2,24 +2,27 @@ const express = require('express');
 const con = require('../connection');
 const router = express.Router();
 const sha256 = require('sha256');
+const { check, validationResult } = require('express-validator');
 
-router.get("/login", function(req,res,next) {
+router.get("/login", [check('id').isInt(),check('password').isLength({min:5})], function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("login");
 	// 일단은 단순하게 로그인 기능
 	var id = req.query.id,
 	password = req.query.password;
+	
+	console.log(check('id').isInt());
 	console.log(req.query);
 	var sql = 'select * from 사원 where 사번=?';
 	con.query(sql,id,function(err, result, fields) {
 		if(err) throw err;
-		console.log(result);
 		if(result.length!=0) {
 			var crypto = sha256.x2(password);
 			var crypto2 = sha256.x2(result[0].비밀번호);
 			var crypto3 = result[0].비밀번호;
-			console.log(crypto);
-			console.log(crypto2);
-			console.log(crypto3);
 			if(result[0].사번==result[0].비밀번호) {
 				var sql2 = 'UPDATE 사원 SET 비밀번호=? WHERE 사번=?';
 				var params = [crypto2,id];

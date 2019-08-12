@@ -1,9 +1,14 @@
 const express = require('express');
 const con = require('../../connection');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 
 // 댓글 조회
-router.get("/",function(req,res,next) {
+router.get("/",check('postId').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("read comment");
 	var postId = req.query.postId;
 	var sql = 'SELECT 게시글댓글.*,사원.이름 from 게시글댓글 JOIN 사원 ON 게시글댓글.작성자=사원.사번 AND 게시글댓글.소속게시글=? ORDEr BY 게시글댓글.작성시각 DESC';
@@ -18,7 +23,15 @@ router.get("/",function(req,res,next) {
 	});
 });
 
-router.post("/",function(req,res,next) {
+router.post("/",[
+	check('writer').isInt({min:10000000,max:99999999}),
+	check('postId').isInt(),
+	check('content').isLength({min:1})
+],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("create comment");
 	var newDate = new Date();
 	var time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
@@ -34,7 +47,11 @@ router.post("/",function(req,res,next) {
 	});
 });
 // 댓글 수정
-router.put("/",function(req,res,next) {
+router.put("/",[check('commentId').isInt(),check('content').isLength({min:1})],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("update comment");
 	var commentId = req.body.commentId,
 	content = req.body.content;
@@ -46,7 +63,11 @@ router.put("/",function(req,res,next) {
 	});
 });
 // 댓글 삭제
-router.delete("/",function(req,res,next) {
+router.delete("/",check('commentId').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("delete comment");
 	var commentId = req.query.commentId;
 	console.log(commentId);

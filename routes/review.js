@@ -7,6 +7,7 @@ const path = require('path');
 const exec = require('child_process').exec;
 const shell = require('shelljs');
 const async = require('async');
+const { check, validationResult } = require('express-validator');
 
 const commentRouter = require('./comment');
 
@@ -21,7 +22,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get("/",function(req, res, next){
+router.get("/",[
+	check('id').isInt({min:10000000,max:99999999}),
+	check('deptId').isInt()
+],function(req, res, next){
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("read");
 	var id = req.query.id,
 	mode = req.query.mode,
@@ -82,7 +90,11 @@ router.get("/many",function(req,res,next) {
 		});
 	});
 });
-router.get("/download",function(req,res,next) {
+router.get("/download",check('id').isInt(),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("download code");
 	var id = req.query.id;
 	console.log(id);
@@ -95,7 +107,17 @@ router.get("/download",function(req,res,next) {
 	});
 });
 
-router.post("/", upload.single('userfile'),function(req, res, next) {
+router.post("/", [
+	upload.single('userfile'),
+	check('writer').isInt({min:10000000,max:99999999}),
+	check('mode').isInt({min:1,max:3}),
+	check('organization').isLength({min:1}),
+	(check('tags').isJSON()||check('tags').isEmpty())
+],function(req, res, next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	console.log("upload code for review");
 	console.log(req.body);
 	var newDate = new Date(); // 현재시간 받아 옴
@@ -191,7 +213,11 @@ router.post("/", upload.single('userfile'),function(req, res, next) {
 	}
 });
 
-router.delete("/", function(req,res,next) {
+router.delete("/", check('id').isInt({min:1}), function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 	var id = req.query.id;
 	var sql = "DELETE FROM 코드 where 코드번호=?";
 	var sql2 = "SELECT 파일경로 from 코드 where 코드번호=?";
