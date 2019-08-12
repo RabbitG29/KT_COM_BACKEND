@@ -8,17 +8,33 @@ const mysql = require("mysql");
 const con = require("./connection.js");
 const dateUtils = require("date-utils");
 const bodyParser= require("body-parser");
+const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 app.use(bodyParser.json());
 app.use(cors());
-
+app.use(express.static('static'));
+//app.use('/swagger-ui', express.static(path.join(__dirname,'./node_modules/swagger-ui/dist')));
+app.use('/api-docs',swaggerUi.serve);
+app.get('/api-docs',swaggerUi.setup(swaggerDocument));
 con.connect(function(err) {
-	if(err) throw er;
+	if(err) throw err;
 	console.log("mysql connected");
 });
 
 app.get("/", function(req, res) {
 	console.log("home");
-	res.send("hi");
+	res.render("./static/index");
+});
+
+app.use('/v1/swagger.json',function(req,res) {
+	res.json(require('./swagger.json'));
+});
+
+app.use('/swagger',function(req,res) {
+	console.log("hi");
+	res.redirect('/swagger-ui?url=v1/swagger.json');
 });
 
 const userRouter = require('./routes/users');

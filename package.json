@@ -14,14 +14,18 @@
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "date-utils": "^1.2.21",
+    "express-validator": "^6.1.1",
     "express.js": "^1.0.0",
     "fs": "0.0.1-security",
     "multer": "^1.4.2",
     "mysql": "^2.17.1",
     "path": "^0.12.7",
+    "request": "^2.88.0",
     "sha256": "^0.2.0",
     "shelljs": "^0.8.3",
     "sonarqube": "0.0.1",
-    "sonarqube-scanner": "^2.5.0"
+    "sonarqube-scanner": "^2.5.0",
+    "swagger-ui": "^3.23.5",
+    "swagger-ui-express": "^4.0.7"
   }
 }

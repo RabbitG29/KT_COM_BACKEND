@@ -8,7 +8,7 @@ const exec = require('child_process').exec;
 const shell = require('shelljs');
 const async = require('async');
 const { check, validationResult } = require('express-validator');
-
+const request = require('request');
 const commentRouter = require('./comment');
 
 //파일 업로드 설정
@@ -241,6 +241,19 @@ router.delete("/", check('id').isInt({min:1}), function(req,res,next) {
 			else {
 				res.send({"status":"success"});
 			}
+		});
+	});
+});
+router.get('/issues',function(req,res,next) {
+	console.log("issue");
+	var codeId = req.query.codeId;
+	var sql = "SELECT * from 코드 where 코드번호=?";
+	con.query(sql,codeId,function(err,result,fields) {
+		if(err) throw err;
+		var url = "https://sonarcloud.io/api/issues/tags?project="+result[0].작성자+"-"+result[0].파일명;
+		request(url,function(err,response,body) {
+			console.log(JSON.parse(body));
+			res.send(JSON.parse(body))
 		});
 	});
 });
