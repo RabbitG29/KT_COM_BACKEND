@@ -369,4 +369,77 @@ router.post("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max
 	});
 });
 
+// 게시글 구독 여부 조회
+router.get("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
+	var postId = req.query.postId,
+	id = req.query.id;
+	var params = [postId, id];
+	var sql = 'SELECT * from 게시글구독 where 구독게시글=? AND 구독사원=?';
+	con.query(sql,params,function(err,result,fields) {
+		if(err) throw err;
+		else if(result[0]==null || result[0].체크!=1) res.send({"status":"unfollow"});
+		else if(result[0].체크==1) res.send({"status":"follow"});
+	});
+});
+
+// 게시글 구독
+router.post("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req, res, next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
+	console.log("follow post");
+	var postId = req.body.postId,
+	id = req.body.id;
+	var params = [postId, id];
+	var sql = 'SELECT * from 게시글구독 where 구독게시글=? AND 구독사원=?';
+	con.query(sql,params,function(err,result,fields) {
+		if(err) throw err;
+		else if(result[0]==null) { // 처음 생성
+			var sql2 = 'INSERT INTO 게시글구독 (구독게시글, 구독사원, 체크) VALUES (?,?,1)';
+			con.query(sql2,params,function(err,result,fields) {
+				if(err) throw err;
+				else res.send({"status":"follow"});
+			});
+		}
+		else if(result[0].체크==1) { // 좋아요 취소
+			var sql2 = 'UPDATE 게시글구독 SET 체크=0 WHERE 구독게시글=? AND 구독사원=?';
+			con.query(sql2,params,function(err,result,fields) {
+				if(err) throw err;
+				else res.send({"status":"unfollow"});
+			});
+		}
+		else if(result[0].체크!=1) { // 좋아요 누르기
+			var sql2 = 'UPDATE 게시글구독 SET 체크=1 WHERE 구독게시글=? AND 구독사원=?';
+			con.query(sql2,params,function(err,result,fields) {
+				if(err) throw err;
+				else res.send({"status":"follow"});
+			});
+		}
+	});
+});
+
+//구독 게시글 모아보기
+router.get("/following",check('id').isInt({min:10000000,max:99999999}),function(req,res,next) {
+	const errors = validationResult(req);
+	if(!errors.isEmpty()) {
+		return res.status(422).json({ erros: errors.array() });
+	}
+	console.log("following posts");
+	var id = req.query.id;
+	var sql = 'SELECT 게시글.*,게시판.게시판명,사원.이름,게시글카테고리.카테고리명,부서.부서명 from 게시글 JOIN 게시글구독 ON 게시글구독.구독사원=? AND 게시글구독.구독게시글=게시글.게시글번호 AND 게시글구독.체크=1 JOIN 게시판 ON 게시판.게시판번호=게시글.소속게시판 JOIN 사원 ON 사원.사번=게시글.작성자 JOIN 게시글카테고리 ON 게시글카테고리.카테고리번호=게시글.소속카테고리 JOIN 부서 ON 부서.부서코드=사원.소속부서 ORDER BY 게시글.작성시각 DESC';
+	con.query(sql,id,function(err,result,fields) {
+		if(err) throw err;
+		else {
+			res.send({
+				"status":"success",
+				result:JSON.stringify(result)
+			});
+		}
+	});
+});
 module.exports = router;
