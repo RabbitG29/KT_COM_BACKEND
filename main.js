@@ -1,3 +1,8 @@
+/**
+ * main 파일입니다.
+ * @main
+**/  
+
 const hostname = "0.0.0.0";
 const port = "3000";
 
@@ -24,6 +29,10 @@ con.connect(function(err) {
 });
 
 app.get("/", function(req, res) {
+	/**
+	 * main으로 rendering해줍니다.
+	 * @param message {string} 출력해줄 메시지입니다.
+	**/
 	console.log("home");
 	res.render("./static/index");
 });
