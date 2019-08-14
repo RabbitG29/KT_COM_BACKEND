@@ -1,10 +1,41 @@
+/**
+ * login 파일입니다.
+ * @api login
+**/
+
 const express = require('express');
 const con = require('../connection');
 const router = express.Router();
 const sha256 = require('sha256');
 const { check, validationResult } = require('express-validator');
-
+/**
+* @swagger
+*
+* /login:
+*   get:
+*     sammary: 사번을 이용한 로그인
+*     tags:
+*       - login
+*     desciprion: 로그인
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         in: query
+*         type: integer
+*         description: 사번
+*       - name: password
+*         in: query
+*         type: string
+*         description: 비밀번호, SHA-256으로 암호화
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 router.get("/login", [check('id').isInt(),check('password').isLength({min:5})], function(req,res,next) {
+	
 	const errors = validationResult(req);
 	if(!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array() });

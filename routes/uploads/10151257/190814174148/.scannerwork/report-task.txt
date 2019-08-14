@@ -1,0 +1,7 @@
+organization=kt
+projectKey=10151257-FollowPost.vue
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.184
+dashboardUrl=https://sonarcloud.io/dashboard?id=10151257-FollowPost.vue
+ceTaskId=AWyPS8YXMuPNv8OdeqQD
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWyPS8YXMuPNv8OdeqQD

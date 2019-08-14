@@ -109,13 +109,13 @@ router.get("/download",check('id').isInt(),function(req,res,next) {
 
 router.post("/", [
 	upload.single('userfile'),
-	check('writer').isInt({min:10000000,max:99999999}),
-	check('mode').isInt({min:1,max:3}),
-	check('organization').isLength({min:1}),
-	(check('tags').isJSON()||check('tags').isEmpty())
+	check('id').isInt({min:10000000,max:99999999}),
+	check('mode').isInt({min:0,max:4}),
+	check('organization').isLength({min:1})
 ],function(req, res, next) {
 	const errors = validationResult(req);
 	if(!errors.isEmpty()) {
+		console.log(errors);
 		return res.status(422).json({ errors: errors.array() });
 	}
 	console.log("upload code for review");
