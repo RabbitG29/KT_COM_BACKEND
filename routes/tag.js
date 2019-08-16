@@ -4,6 +4,28 @@ const router = express.Router();
 const async = require('async');
 const { check, validationResult } = require('express-validator');
 
+/**
+* @swagger
+* /tag/bytag:
+*   post:
+*     sammary: 태그별 게시글 혹은 코드 조회
+*     tags:
+*       - tag
+*     description: 태그로 검색하여 게시글 혹은 코드 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: mode
+*         in: body
+*         type: integer
+*         example: { mode: 1 }
+*         description: 게시글 검색(0)인지 코드 검색(1)인지 여부
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //태그별 게시글 조회
 router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -49,7 +71,27 @@ router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 		});
 	});
 });
-
+/**
+* @swagger
+* /tag/bypost:
+*   get:
+*     sammary: 게시글별 태그 조회
+*     tags:
+*       - tag
+*     description: 게시글 조회 시 등록된 태그 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: query
+*         type: integer
+*         description: 게시글 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //게시글별 태그 조회
 router.get("/bypost",check('postId').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -66,7 +108,27 @@ router.get("/bypost",check('postId').isInt(),function(req,res,next) {
 		});
 	});
 });
-
+/**
+* @swagger
+* /tag/bycode:
+*   get:
+*     sammary: 코드별 태그 조회
+*     tags:
+*       - tag
+*     description: 코드 조회 시 등록된 태그 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: codeId
+*         in: query
+*         type: integer
+*         description: 코드 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //코드별 태그 조회
 router.get("/bycode",check('codeId').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -84,7 +146,22 @@ router.get("/bycode",check('codeId').isInt(),function(req,res,next) {
 		});
 	});
 });
-
+/**
+* @swagger
+* /tag/liketag:
+*   get:
+*     sammary: 많이 등록된 태그 조회
+*     tags:
+*       - tag
+*     description: 많이 태그된 상위 5개 태그 조회
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //인기 태그 조회
 router.get("/liketag",function(req,res,next) {
 	var sql = "SELECT * from 해시태그 ORDER BY 태그횟수 DESC LIMIT 5";

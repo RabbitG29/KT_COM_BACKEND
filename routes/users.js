@@ -11,12 +11,12 @@ const { check, validationResult } = require('express-validator');
 /**
 * @swagger
 *
-* /login:
+* /users/login:
 *   get:
 *     sammary: 사번을 이용한 로그인
 *     tags:
 *       - login
-*     desciprion: 로그인
+*     description: 로그인
 *     produces:
 *       - application/json
 *     parameters:
@@ -84,7 +84,23 @@ router.get("/login", [check('id').isInt(),check('password').isLength({min:5})], 
 			res.send({"status":"none"});
 	});
 });
-
+/**
+* @swagger
+*
+* /users/depts:
+*   get:
+*     sammary: 부서 목록 조회
+*     tags:
+*       - depts
+*     description: 부서 목록 조회
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //부서 조회
 router.get("/depts",function(req,res,next) {
 	console.log("dept list");

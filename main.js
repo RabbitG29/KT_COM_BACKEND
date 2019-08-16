@@ -14,15 +14,38 @@ const con = require("./connection.js");
 const dateUtils = require("date-utils");
 const bodyParser= require("body-parser");
 const path = require('path');
+//const swaggerUi = require('swagger-ui-express');
+//const swaggerDocument = require('./swagger.json');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+	swaggerDefinition: {
+		info:{
+			title: "KTCC",
+			version: "v1.0.0",
+		},
+		host: 'http://45.119.147.154:3000',
+		basePath: '/'
+	},
+	apis: [
+		'./routes/*.js','./routes/board/*.js'
+	]
+}
+
+const swaggerSpec = swaggerJsdoc(options);
+const customCss = {
+	customCss: ".opbloack-summary-description {text-align: right}"
+}
+
+app.use('/api-swagger',swaggerUi.serve, swaggerUi.setup(swaggerSpec, customCss));
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('static'));
 //app.use('/swagger-ui', express.static(path.join(__dirname,'./node_modules/swagger-ui/dist')));
-app.use('/api-docs',swaggerUi.serve);
-app.get('/api-docs',swaggerUi.setup(swaggerDocument));
+//app.use('/api-docs',swaggerUi.serve);
+//app.get('/api-docs',swaggerUi.setup(swaggerDocument));
 con.connect(function(err) {
 	if(err) throw err;
 	console.log("mysql connected");

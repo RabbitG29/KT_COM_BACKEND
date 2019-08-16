@@ -17,7 +17,28 @@ const storage = multer.diskStorage({
 	}
 });
 const upload = multer({ storage: storage});
-
+/**
+* @swagger
+* /board/post:
+*   get:
+*     sammary: 게시판별 게시글 조회
+*     tags:
+*       - post
+*     description: 해당 게시판의 게시글 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: boardId
+*         in: query
+*         type: integer
+*         example: { boardId: 1 }
+*         description: 게시판 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 // 게시판 조회
 router.get("/",check('boardId').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -37,6 +58,22 @@ router.get("/",check('boardId').isInt(),function(req,res,next) {
 		}
 	});
 });
+/**
+* @swagger
+* /board/post/recent:
+*   get:
+*     sammary: 최근 작성된 게시글 5개 조회
+*     tags:
+*       - post
+*     description: 최근 작성된  게시글 5개 조회
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //최근 게시글 조회
 router.get("/recent",function(req,res,next) {
 	console.log("recent list");
@@ -51,6 +88,22 @@ router.get("/recent",function(req,res,next) {
 		}
 	});
 });
+/**
+* @swagger
+* /board/post/hot:
+*   get:
+*     sammary: 추천수가 많은 게시글 5개 조회
+*     tags:
+*       - post
+*     description: 추천수가 많은 게시글 5개 조회
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //핫게시글 조회
 router.get("/hot",function(req,res,next) {
 	console.log("recent list");
@@ -84,6 +137,28 @@ router.get("/view",check('postId').isInt(),function(req,res,next) {
 		}
 	});
 });
+/**
+* @swagger
+* /board/post/download:
+*   get:
+*     sammary: 해당 게시글의 첨부파일 다운로드
+*     tags:
+*       - post
+*     description: 해당 게시글의 첨부파일 다운로드
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         in: query
+*         type: integer
+*         example: { id: 1 }
+*         description: 게시판 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //첨부파일 다운로드
 router.get("/download",check('id').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -98,7 +173,53 @@ router.get("/download",check('id').isInt(),function(req,res,next) {
 		else res.download(result[0].첨부파일경로);
 	});
 });
-
+/**
+* @swagger
+* /board/post:
+*   post:
+*     sammary: 게시글 작성
+*     tags:
+*       - post
+*     description: 게시글 작성
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: boardId
+*         in: body
+*         type: integer
+*         example: { boardId: 1 }
+*         description: 소속 게시판 번호
+*       - name: writer
+*         in: body
+*         type: integer
+*         example: { writer: 10151257 }
+*         description: 작성자(사번)
+*       - name: title
+*         in: body
+*         type: string
+*         example: { title: 제목 }
+*         description: 게시글 제목
+*       - name: content
+*         in: body
+*         type: string
+*         example: { content: 내용 }
+*         description: 게시글 내용
+*       - name: categoryId
+*         in: body
+*         type: integer
+*         example: { categoryId: 1 }
+*         description: 소속 카테고리 번호
+*       - name: tags
+*         in: body
+*         type: string
+*         example: { tags: ["vue","JavaScript"] }
+*         description: 태그
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //게시글 등록
 router.post("/",[
 	upload.single('userfile'),
@@ -193,6 +314,43 @@ router.post("/",[
 		}
 	});	
 });
+/**
+* @swagger
+* /board/post:
+*   put:
+*     sammary: 게시글 수정
+*     tags:
+*       - post
+*     description: 게시글 수정
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: body
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*       - name: title
+*         in: body
+*         type: string
+*         example: { title: 제목 }
+*         description: 게시글 제목
+*       - name: content
+*         in: body
+*         type: string
+*         example: { content: 내용 }
+*         description: 게시글 내용
+*       - name: categoryId
+*         in: body
+*         type: integer
+*         example: { categoryId: 1 }
+*         description: 소속 카테고리 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //게시글 수정
 //TODO : 게시글 수정 시 태그 수정 필요
 router.put("/",[
@@ -258,6 +416,28 @@ router.put("/",[
 		});
 	}
 });
+/**
+* @swagger
+* /board/post:
+*   delete:
+*     sammary: 게시글 삭제
+*     tags:
+*       - post
+*     description: 게시글 삭제
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: query
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 //게시글 삭제
 router.delete("/",check('postId').isInt(),function(req,res,next) {
 	const errors = validationResult(req);
@@ -297,6 +477,32 @@ router.delete("/",check('postId').isInt(),function(req,res,next) {
 		
 	});
 });
+/**
+* @swagger
+* /board/post/like:
+*   get:
+*     sammary: 게시글 추천 여부 조회
+*     tags:
+*       - post
+*     description: 해당 사원이 해당 게시글을 추천했는지 여부 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: query
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*       - name: id
+*         in: query
+*         type: integer
+*         description: 사번
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 // 게시글 추천 여부 조회
 router.get("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req,res,next) {
 	const errors = validationResult(req);
@@ -313,7 +519,33 @@ router.get("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:
 		else if(result[0].체크==1) res.send({"status":"like"});
 	});
 });
-
+/**
+* @swagger
+* /board/post/like:
+*   post:
+*     sammary: 게시글 추천
+*     tags:
+*       - post
+*     description: 해당 사원이 해당 게시글 추천 혹은 취소
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: body
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*       - name: id
+*         in: body
+*         type: integer
+*         example: { id: 10151257 }
+*         description: 사번
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 // 게시글 추천
 router.post("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req, res, next) {
 	const errors = validationResult(req);
@@ -368,7 +600,32 @@ router.post("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max
 		}
 	});
 });
-
+/**
+* @swagger
+* /board/post/follow:
+*   get:
+*     sammary: 게시글 구독 여부 조회
+*     tags:
+*       - post
+*     description: 해당 사원이 해당 게시글을 구독했는지 여부 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: query
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*       - name: id
+*         in: query
+*         type: integer
+*         description: 사번
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 // 게시글 구독 여부 조회
 router.get("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req,res,next) {
 	const errors = validationResult(req);
@@ -385,7 +642,33 @@ router.get("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,ma
 		else if(result[0].체크==1) res.send({"status":"follow"});
 	});
 });
-
+/**
+* @swagger
+* /board/post/follow:
+*   post:
+*     sammary: 게시글 구독
+*     tags:
+*       - post
+*     description: 해당 사원이 해당 게시글 구독 혹은 취소
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: postId
+*         in: body
+*         type: integer
+*         example: { postId: 1 }
+*         description: 게시글 번호
+*       - name: id
+*         in: body
+*         type: integer
+*         example: { id: 10151257 }
+*         description: 사번
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 // 게시글 구독
 router.post("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,max:99999999})],function(req, res, next) {
 	const errors = validationResult(req);
@@ -422,6 +705,28 @@ router.post("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,m
 		}
 	});
 });
+/**
+* @swagger
+* /board/post/following:
+*   get:
+*     sammary: 구독한 게시글 조회
+*     tags:
+*       - post
+*     description: 해당 사원이 구독한 게시글 조회
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         in: query
+*         type: integer
+*         example: { id: 10151257 }
+*         description: 사번
+*     responses:
+*       200:
+*         description: 통신 성공
+*       424:
+*         description: parameter가 유효하지 않음
+*/
 
 //구독 게시글 모아보기
 router.get("/following",check('id').isInt({min:10000000,max:99999999}),function(req,res,next) {

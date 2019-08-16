@@ -27,6 +27,7 @@
     "shelljs": "^0.8.3",
     "sonarqube": "0.0.1",
     "sonarqube-scanner": "^2.5.0",
+    "swagger-jsdoc": "^3.4.0",
     "swagger-ui": "^3.23.5",
     "swagger-ui-express": "^4.0.7"
   }
