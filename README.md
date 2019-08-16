@@ -9,8 +9,8 @@
 npm install
 
 # run server
-node main.js // run main server(port 3000) or main2.js(port 3001)
-node main3.js // run code-reviewer server(port 3002)
+node main.js # run main server(port 3000) or main2.js(port 3001)
+node main3.js # run code-reviewer server(port 3002)
 ```
 
 ## test run in
