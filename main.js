@@ -25,7 +25,7 @@ const options = {
 			title: "KTCC",
 			version: "v1.0.0",
 		},
-		host: 'http://45.119.147.154:3000',
+		host: 'http://45.119.147.154:3001',
 		basePath: '/'
 	},
 	apis: [

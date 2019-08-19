@@ -9,7 +9,7 @@ router.use('/comment', commentRouter);
 * @swagger
 * /board/categories:
 *   get:
-*     sammary: 총 카테고리 조회
+*     summary: 총 카테고리 조회
 *     tags:
 *       - category
 *     description: 총 카테고리 조회

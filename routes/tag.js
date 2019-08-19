@@ -8,7 +8,7 @@ const { check, validationResult } = require('express-validator');
 * @swagger
 * /tag/bytag:
 *   post:
-*     sammary: 태그별 게시글 혹은 코드 조회
+*     summary: 태그별 게시글 혹은 코드 조회
 *     tags:
 *       - tag
 *     description: 태그로 검색하여 게시글 혹은 코드 조회
@@ -47,9 +47,13 @@ router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 	async.forEach(tags,function(tag,callback) {
 		con.query(sql2,tag,function(err,result,fields) {
 			if(err) throw err;
+			if(result[0]==null) {
+				console.log("null");
+				continue;
+			}
 			console.log(result[0]);
 			console.log(result[0].태그번호);
-			con.query(sql,result[0].태그번호,function(err,result2,fields) {
+			con.query(sql,result[0].태그번호,function(err,result2,fields) { // 없는 태그로 검색했을 경우를 대비해야함
 				if(err) throw err;
 				console.log("hi");
 				/*for(var i=0;i<result.length;i++) {
@@ -61,7 +65,7 @@ router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 				console.log("results");
 				console.log(results);
 				asyncCount++;
-				if(asyncCount>=tags.length) { // TODO : 중복제거 + 중복 필터링(AND/OR로 할 수 있을 듯?)
+				if(asyncCount>=tags.length) { // TODO : 중복제거 + 중복 필터링(AND/OR로 할 수 있을 듯?) -> Front에서 처리
 					res.send({
 						"status":"success",
 						result:JSON.stringify(results)
@@ -75,7 +79,7 @@ router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 * @swagger
 * /tag/bypost:
 *   get:
-*     sammary: 게시글별 태그 조회
+*     summary: 게시글별 태그 조회
 *     tags:
 *       - tag
 *     description: 게시글 조회 시 등록된 태그 조회
@@ -112,7 +116,7 @@ router.get("/bypost",check('postId').isInt(),function(req,res,next) {
 * @swagger
 * /tag/bycode:
 *   get:
-*     sammary: 코드별 태그 조회
+*     summary: 코드별 태그 조회
 *     tags:
 *       - tag
 *     description: 코드 조회 시 등록된 태그 조회
@@ -150,7 +154,7 @@ router.get("/bycode",check('codeId').isInt(),function(req,res,next) {
 * @swagger
 * /tag/liketag:
 *   get:
-*     sammary: 많이 등록된 태그 조회
+*     summary: 많이 등록된 태그 조회
 *     tags:
 *       - tag
 *     description: 많이 태그된 상위 5개 태그 조회

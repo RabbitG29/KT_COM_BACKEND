@@ -6,7 +6,7 @@ const { check, validationResult } = require('express-validator');
 * @swagger
 * /board/comment:
 *   get:
-*     sammary: 게시글별 댓글 조회
+*     summary: 게시글별 댓글 조회
 *     tags:
 *       - post comment
 *     description: 게시글별 댓글 조회
@@ -46,7 +46,7 @@ router.get("/",check('postId').isInt(),function(req,res,next) {
 * @swagger
 * /board/comment:
 *   post:
-*     sammary: 게시글에 댓글 작성
+*     summary: 게시글에 댓글 작성
 *     tags:
 *       - post comment
 *     description: 게시글에 댓글 작성
@@ -102,7 +102,7 @@ router.post("/",[
 * @swagger
 * /board/comment:
 *   put:
-*     sammary: 게시글 댓글 수정
+*     summary: 게시글 댓글 수정
 *     tags:
 *       - post comment
 *     description: 게시글에 있던 댓글 수정
@@ -146,7 +146,7 @@ router.put("/",[check('commentId').isInt(),check('content').isLength({min:1})],f
 * @swagger
 * /board/comment:
 *   delete:
-*     sammary: 게시글 댓글 삭제
+*     summary: 게시글 댓글 삭제
 *     tags:
 *       - post comment
 *     description: 게시글에 있던 댓글 삭제

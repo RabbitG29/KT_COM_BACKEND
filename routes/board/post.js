@@ -21,7 +21,7 @@ const upload = multer({ storage: storage});
 * @swagger
 * /board/post:
 *   get:
-*     sammary: 게시판별 게시글 조회
+*     summary: 게시판별 게시글 조회
 *     tags:
 *       - post
 *     description: 해당 게시판의 게시글 조회
@@ -62,7 +62,7 @@ router.get("/",check('boardId').isInt(),function(req,res,next) {
 * @swagger
 * /board/post/recent:
 *   get:
-*     sammary: 최근 작성된 게시글 5개 조회
+*     summary: 최근 작성된 게시글 5개 조회
 *     tags:
 *       - post
 *     description: 최근 작성된  게시글 5개 조회
@@ -92,7 +92,7 @@ router.get("/recent",function(req,res,next) {
 * @swagger
 * /board/post/hot:
 *   get:
-*     sammary: 추천수가 많은 게시글 5개 조회
+*     summary: 추천수가 많은 게시글 5개 조회
 *     tags:
 *       - post
 *     description: 추천수가 많은 게시글 5개 조회
@@ -141,7 +141,7 @@ router.get("/view",check('postId').isInt(),function(req,res,next) {
 * @swagger
 * /board/post/download:
 *   get:
-*     sammary: 해당 게시글의 첨부파일 다운로드
+*     summary: 해당 게시글의 첨부파일 다운로드
 *     tags:
 *       - post
 *     description: 해당 게시글의 첨부파일 다운로드
@@ -177,7 +177,7 @@ router.get("/download",check('id').isInt(),function(req,res,next) {
 * @swagger
 * /board/post:
 *   post:
-*     sammary: 게시글 작성
+*     summary: 게시글 작성
 *     tags:
 *       - post
 *     description: 게시글 작성
@@ -250,7 +250,6 @@ router.post("/",[
 	!check('information.tags').isJSON())
 		return res.status(422).json({ errors: errors.array() });
 	var path, id;
-	var i=0;
 	var sql = 'INSERT INTO 게시글 (작성자, 소속게시판, 작성시각, 제목, 내용, 추천수, 소속카테고리) VALUES (?,?,?,?,?,?,?)';
 	var params = [writer, boardId, writetime, title, content, thumbsup, categoryId];
 	con.query(sql, params, function(err,result,fields) {
@@ -287,7 +286,7 @@ router.post("/",[
 			con.query(sql2,params2,function(err,result,fields) { // 생성된 게시글 번호 조회
 				if(err) throw err;
 				else {
-					file_path='/root/kt/routes/board/uploads/'+result[0].게시글번호;
+					var file_path='/root/kt/routes/board/uploads/'+result[0].게시글번호;
 					console.log(filepath);
 					console.log(file_path+"/"+originalname);
 					console.log(originalname);
@@ -318,7 +317,7 @@ router.post("/",[
 * @swagger
 * /board/post:
 *   put:
-*     sammary: 게시글 수정
+*     summary: 게시글 수정
 *     tags:
 *       - post
 *     description: 게시글 수정
@@ -420,7 +419,7 @@ router.put("/",[
 * @swagger
 * /board/post:
 *   delete:
-*     sammary: 게시글 삭제
+*     summary: 게시글 삭제
 *     tags:
 *       - post
 *     description: 게시글 삭제
@@ -481,7 +480,7 @@ router.delete("/",check('postId').isInt(),function(req,res,next) {
 * @swagger
 * /board/post/like:
 *   get:
-*     sammary: 게시글 추천 여부 조회
+*     summary: 게시글 추천 여부 조회
 *     tags:
 *       - post
 *     description: 해당 사원이 해당 게시글을 추천했는지 여부 조회
@@ -523,7 +522,7 @@ router.get("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max:
 * @swagger
 * /board/post/like:
 *   post:
-*     sammary: 게시글 추천
+*     summary: 게시글 추천
 *     tags:
 *       - post
 *     description: 해당 사원이 해당 게시글 추천 혹은 취소
@@ -604,7 +603,7 @@ router.post("/like",[check('postId').isInt(),check('id').isInt({min:10000000,max
 * @swagger
 * /board/post/follow:
 *   get:
-*     sammary: 게시글 구독 여부 조회
+*     summary: 게시글 구독 여부 조회
 *     tags:
 *       - post
 *     description: 해당 사원이 해당 게시글을 구독했는지 여부 조회
@@ -646,7 +645,7 @@ router.get("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,ma
 * @swagger
 * /board/post/follow:
 *   post:
-*     sammary: 게시글 구독
+*     summary: 게시글 구독
 *     tags:
 *       - post
 *     description: 해당 사원이 해당 게시글 구독 혹은 취소
@@ -709,7 +708,7 @@ router.post("/follow",[check('postId').isInt(),check('id').isInt({min:10000000,m
 * @swagger
 * /board/post/following:
 *   get:
-*     sammary: 구독한 게시글 조회
+*     summary: 구독한 게시글 조회
 *     tags:
 *       - post
 *     description: 해당 사원이 구독한 게시글 조회

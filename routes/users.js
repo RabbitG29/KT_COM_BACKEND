@@ -13,7 +13,7 @@ const { check, validationResult } = require('express-validator');
 *
 * /users/login:
 *   get:
-*     sammary: 사번을 이용한 로그인
+*     summary: 사번을 이용한 로그인
 *     tags:
 *       - login
 *     description: 로그인
@@ -57,8 +57,8 @@ router.get("/login", [check('id').isInt(),check('password').isLength({min:5})], 
 			if(result[0].사번==result[0].비밀번호) {
 				var sql2 = 'UPDATE 사원 SET 비밀번호=? WHERE 사번=?';
 				var params = [crypto2,id];
-				con.query(sql2,params,function(err,result2,fields) {
-					if(err) throw err;
+				con.query(sql2,params,function(err2,result,fields) {
+					if(err2) throw err2;
 					if(crypto==crypto2) {				
 						res.send({
 							"status":"success",
@@ -89,7 +89,7 @@ router.get("/login", [check('id').isInt(),check('password').isLength({min:5})], 
 *
 * /users/depts:
 *   get:
-*     sammary: 부서 목록 조회
+*     summary: 부서 목록 조회
 *     tags:
 *       - depts
 *     description: 부서 목록 조회
