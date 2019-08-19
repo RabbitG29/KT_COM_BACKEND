@@ -285,10 +285,10 @@ router.post("/", [
 			}
 		});
 		var path2 = file_path+"/"+originalname;
-		console.log(path2);
 		var link = "https://sonarcloud.io/dashboard?id="+writer+"-"+originalname;
 		var params = [writer, writetime, path2, originalname, link, mode];
 		console.log(params);
+		setTimeout(function() { 
 		shell.cd(file_path); // 해당 디렉토리로 이동해서
 		console.log(path.extname(originalname));
 		if(path.extname(originalname)==".zip") // 확장자가 zip이면
@@ -335,7 +335,8 @@ router.post("/", [
 					}
 				});
 			}
-		}); // sonar-scanner 동작		
+		}); // sonar-scanner 동작
+		},1000);
 	}
 });
 /**
