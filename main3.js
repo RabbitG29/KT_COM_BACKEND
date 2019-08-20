@@ -1,5 +1,5 @@
 const hostname = "0.0.0.0";
-const port = "3002";
+const port = "8080";
 
 const express = require("express");
 const app = express();

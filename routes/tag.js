@@ -49,7 +49,8 @@ router.post("/bytag",check('mode').isInt(),function(req,res,next) {
 			if(err) throw err;
 			if(result[0]==null) {
 				console.log("null");
-				continue;
+				//continue; -> 이건 안 먹음
+				return;
 			}
 			console.log(result[0]);
 			console.log(result[0].태그번호);

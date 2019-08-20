@@ -9,16 +9,16 @@
 npm install
 
 # run server
-node main.js # run main server(port 3000) or main2.js(port 3001)
-node main3.js # run code-reviewer server(port 3002)
+node main.js # run main server(port 80)
+node main3.js # run code-reviewer server(port 8080)
 
 # run server by forever
-forever start main.js # run main server(port 3000) or main2.js(port 3001)
-forever start main3.js # run code-reveiwer server(port 3002)
+forever start main.js # run main server(port 80)
+forever start main3.js # run code-reveiwer server(port 8080)
 ```
 
 ## test run in
-> http://45.119.147.154:3001
+> http://45.119.147.154
 
 ## Swagger API Docs
-> http://45.119.147.154:3000/api-swagger
+> http://45.119.147.154/api-swagger
