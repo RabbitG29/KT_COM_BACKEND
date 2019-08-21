@@ -373,7 +373,9 @@ router.delete("/", check('id').isInt({min:1}), function(req,res,next) {
 	var sql3 = "SELECT 태그번호 from 코드태그 where 코드번호=?";
 	con.query(sql2,id,function(err, result, fields) {
 		if(result[0].파일경로!=null) {
-			fs.unlink(result[0].파일경로);
+			fs.unlink(result[0].파일경로,function(){
+				
+					});
 //			fs.rmdir // -> TODO : 경로 지워야함
 		}
 	});
