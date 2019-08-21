@@ -318,10 +318,6 @@ router.post("/", [
 										console.log(params3);
 										con.query('insert ignore into 코드태그 VALUES (?,?)',params3,function(err,result,fields) {
 											if(err) throw err;
-											res.send({
-												"status":"success",
-												"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자->완료
-											});
 											//Sonar-Scanner
 											//TODO : project를 마음대로 생성할 수 있는지? -> 완료
 											//TODO : zip과 code 형식을 분기하여 처리하면 좋을 듯->완료
@@ -330,6 +326,10 @@ router.post("/", [
 									});
 								});
 							});
+						});
+						res.send({
+							"status":"success",
+							"link":"https://sonarcloud.io/dashboard?id="+writer+"-"+originalname // TODO : dashboard 링크를 주자->완료
 						});
 						console.log(result);	
 					}
