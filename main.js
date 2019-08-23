@@ -18,6 +18,7 @@ const path = require('path');
 //const swaggerDocument = require('./swagger.json');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const compression = require('compression');
 
 const options = {
 	swaggerDefinition: {
@@ -37,7 +38,7 @@ const swaggerSpec = swaggerJsdoc(options);
 const customCss = {
 	customCss: ".opbloack-summary-description {text-align: right}"
 }
-
+app.use(compression());
 app.use('/api-swagger',swaggerUi.serve, swaggerUi.setup(swaggerSpec, customCss));
 
 app.use(bodyParser.json());
